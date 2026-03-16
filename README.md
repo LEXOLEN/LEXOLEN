@@ -26,6 +26,10 @@
   <a href="https://x.com/LEXOLEN111" target="_blank">
     <img src="https://img.shields.io/badge/X-Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="X (Twitter)">
   </a>
+  <a href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+</a>
+  
 </p>
 
 ---
