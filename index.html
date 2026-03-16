@@ -1,113 +1,241 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEXOLEN - Your Ultimate Project Landing Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-        header {
-            background: #007BFF;
-            width: 100%;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        .hero {
-            background: url('hero-image.jpg') no-repeat center center/cover;
-            width: 100%;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        .content {
-            width: 90%;
-            max-width: 1000px;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        .cta {
-            margin: 20px 0;
-        }
-        .btn {
-            background: #007BFF;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            margin: 5px;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background: #0056b3;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #007BFF;
-            color: white;
-            width: 100%;
-            position: relative;
-            bottom: 0;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LEXOLEN - Your Ultimate Project Landing Page</title>
+
+  <!-- Security-related meta (note: some headers are best set server-side) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'nonce-random123' 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self';" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+  <!-- Favicons and theme color (optional) -->
+  <meta name="theme-color" content="#007BFF" />
+
+  <!-- Basic, professional styles -->
+  <style>
+    :root{
+      --brand:#007BFF;
+      --brand-dark:#0056b3;
+      --bg:#f4f4f4;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --radius:10px;
+      --max-width:1100px;
+      --gap:20px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color-scheme: light;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:var(--gap);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    a{color:inherit}
+    header{
+      width:100%;
+      background:linear-gradient(90deg,var(--brand),var(--brand-dark));
+      color:#fff;
+      padding:18px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 2px 8px rgba(2,6,23,0.08);
+    }
+    header h1{margin:0;font-size:1.25rem;letter-spacing:0.2px}
+
+    .skip-link{
+      position:absolute;
+      left:-999px;
+      top:auto;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+    }
+    .skip-link:focus{
+      left:8px;
+      top:8px;
+      width:auto;
+      height:auto;
+      padding:8px 12px;
+      background:#000;
+      color:#fff;
+      z-index:9999;
+      border-radius:6px;
+    }
+
+    .hero{
+      width:100%;
+      max-width:var(--max-width);
+      height:320px;
+      border-radius:var(--radius);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      text-align:center;
+      background-color:#0b5ed7;
+      background-image:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.18));
+      box-shadow:0 6px 20px rgba(2,6,23,0.08);
+      padding:24px;
+    }
+    .hero h2{margin:0;font-size:1.6rem;max-width:900px}
+
+    .container{
+      width:90%;
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:var(--gap);
+      padding-bottom:40px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:20px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 10px rgba(2,6,23,0.06);
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+    }
+
+    h2,h3{color:#111827;margin:0 0 12px 0}
+    p{color:var(--muted);line-height:1.5;margin:0 0 12px 0}
+
+    .btn{
+      display:inline-block;
+      background:var(--brand);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:8px;
+      text-decoration:none;
+      transition:transform .12s ease, background .12s ease;
+      font-weight:600;
+    }
+    .btn:hover{transform:translateY(-2px);background:var(--brand-dark)}
+    .btn.secondary{background:#111827}
+
+    footer{
+      width:100%;
+      background:linear-gradient(90deg,var(--brand-dark),var(--brand));
+      color:#fff;
+      padding:18px 16px;
+      text-align:center;
+      border-top-left-radius:12px;
+      border-top-right-radius:12px;
+    }
+
+    ul{padding-left:1.15rem}
+    @media (min-width:900px){
+      .container{grid-template-columns:1fr 360px;align-items:start}
+      .hero{height:360px}
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to the LEXOLEN Project</h1>
-    </header>
-    <div class="hero">
-        <h2>Your Ultimate Resource for Modern Solutions</h2>
-    </div>
-    <div class="content">
-        <section id="about">
-            <h2>About Us</h2>
-            <p>LEXOLEN is dedicated to providing innovative solutions for today's challenges. Join us in exploring the possibilities.</p>
-        </section>
-        <section id="features">
-            <h2>Features</h2>
-            <ul>
-                <li>Feature One: Description of feature one.</li>
-                <li>Feature Two: Description of feature two.</li>
-                <li>Feature Three: Description of feature three.</li>
-            </ul>
-        </section>
-        <section id="project-structure">
-            <h2>Project Structure</h2>
-            <p>Details about the project structure can go here.</p>
-        </section>
-        <section id="getting-started">
-            <h2>Getting Started</h2>
-            <p>To get started, follow our guide available in the documentation.</p>
-        </section>
-        <div class="cta">
-            <h2>Connect with Us</h2>
-            <a href="https://github.com/LEXOLEN" class="btn">GitHub</a>
-            <a href="https://instagram.com/LEXOLEN" class="btn">Instagram</a>
-            <a href="https://yourwebsite.com" class="btn">Website</a>
-            <a href="https://twitter.com/LEXOLEN" class="btn">X (Twitter)</a>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header role="banner" aria-label="Site header">
+    <h1>Welcome to the LEXOLEN Project</h1>
+  </header>
+
+  <main id="main" class="container" role="main" aria-labelledby="about-heading">
+    <section class="hero card" aria-hidden="false" role="region" aria-label="Hero">
+      <h2>Your Ultimate Resource for Modern Solutions</h2>
+    </section>
+
+    <div class="card" role="region" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Us</h2>
+      <p><strong>LEXOLEN</strong> builds powerful tools, automation systems, and intelligent solutions to improve productivity and streamline digital workflows.</p>
+      <p>We focus on modular, secure, and developer-friendly systems that scale with your needs.</p>
+
+      <div class="grid-2" style="margin-top:12px">
+        <div>
+          <h3>Features</h3>
+          <ul>
+            <li>Fast and efficient tools</li>
+            <li>Intelligent automation</li>
+            <li>Modular, scalable architecture</li>
+          </ul>
         </div>
+
+        <div>
+          <h3>Getting Started</h3>
+          <p>Clone the repository, install optional dependencies, and run the main tool as documented in the README.</p>
+          <p style="font-size:.9rem;color:var(--muted)">Example: <code>git clone https://github.com/LEXOLEN/LEXOLEN.git</code></p>
+        </div>
+      </div>
+
+      <div style="margin-top:16px" aria-label="Project links">
+        <a class="btn" href="https://github.com/LEXOLEN" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn" href="https://lexolen.github.io/LEXOLEN/" target="_blank" rel="noopener noreferrer" style="margin-left:8px">Website</a>
+      </div>
     </div>
-    <footer>
-        <p>&copy; 2026 LEXOLEN. All rights reserved.</p>
-    </footer>
+
+    <aside class="card" role="complementary" aria-labelledby="connect-heading">
+      <h2 id="connect-heading">Connect with Us</h2>
+      <p style="color:var(--muted)">Follow updates and community posts on social platforms.</p>
+      <nav aria-label="Social links">
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
+          <li><a class="btn secondary" href="https://www.instagram.com/lex_olen/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a class="btn secondary" href="https://x.com/LEXOLEN111" target="_blank" rel="noopener noreferrer">X (Twitter)</a></li>
+          <li><a class="btn secondary" href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </nav>
+    </aside>
+  </main>
+
+  <footer role="contentinfo">
+    <p>&copy; 2026 LEXOLEN. All rights reserved.</p>
+  </footer>
+
+  <!-- Minimal, safe JS: no eval, no external libs. Uses a nonce that matches CSP. -->
+  <script nonce="random123">
+    'use strict';
+    (function(){
+      // Defensive: ensure DOM is ready before running interactive code
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+      function init(){
+        // Example: ensure all external links have safe attributes (defense-in-depth)
+        try {
+          var anchors = document.querySelectorAll('a[target="_blank"]');
+          anchors.forEach(function(a){
+            // Enforce rel attributes if missing
+            var rel = a.getAttribute('rel') || '';
+            if (!/\bnoopener\b/.test(rel)) rel = (rel + ' noopener').trim();
+            if (!/\bnoreferrer\b/.test(rel)) rel = (rel + ' noreferrer').trim();
+            a.setAttribute('rel', rel);
+          });
+        } catch (e) {
+          // Fail silently; do not leak errors to the page
+          console.error('Init script error', e);
+        }
+      }
+
+      // Expose nothing to global scope
+    })();
+  </script>
 </body>
 </html>
