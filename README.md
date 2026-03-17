@@ -7,51 +7,69 @@
 <h1 align="center">LEXOLEN</h1>
 
 <p align="center">
-  <em>Next‑generation tools, automation, and intelligent systems</em>
+  <em>offensive security · threat intelligence · red team tooling</em>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-active-brightgreen?style=for-the-badge" alt="Status">
   <img src="https://img.shields.io/badge/version-1.0-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/OSCP%20%7C%20OSWE-ready-00ff9d?style=for-the-badge&logo=kalilinux&logoColor=white" alt="OSCP/OSWE">
 </p>
 
 <p align="center">
   <a href="https://www.instagram.com/lex_olen/" target="_blank">
     <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram">
   </a>
-  <a href="https://lexolen.github.io/LEXOLEN/" target="_blank">
+  <a href="http://t.co/zNak0mYlq2" target="_blank">
     <img src="https://img.shields.io/badge/Website-4CAF50?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website">
   </a>
   <a href="https://x.com/LEXOLEN111" target="_blank">
-    <img src="https://img.shields.io/badge/X-Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="X (Twitter)">
+    <img src="https://img.shields.io/badge/X-1DA1F2?style=for-the-badge&logo=x&logoColor=white" alt="X (Twitter)">
   </a>
   <a href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank">
-  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-</a>
-  
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+  </a>
+  <a href="https://github.com/LEXOLEN/" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
 </p>
 
 ---
 
 ## 🚀 About LEXOLEN
 
-LEXOLEN builds **powerful tools, automation systems, and intelligent solutions** to improve productivity and streamline digital workflows.  
-This repository is the **central hub** for development, documentation, and updates.
+**LEXOLEN** is a cybersecurity research collective focused on **red teaming, vulnerability development, and defensive automation**.  
+We build open‑source offensive security tools, publish technical research, and share adversary tradecraft to help the community stay ahead.
+
+This repository serves as the central hub for our tooling, documentation, and research papers.
 
 ---
 
-## ✨ Features
+## 🔥 Core Capabilities
 
-- ⚡ Fast and efficient tools  
-- 🤖 Intelligent automation  
-- 🔧 Developer-friendly architecture  
-- 🌐 Scalable design  
-- 📦 Modular components  
+- **Red Teaming** – adversary emulation, C2 infrastructure, evasive payloads  
+- **Threat Intelligence** – IOC harvesting, YARA rules, malware trend analysis  
+- **Reverse Engineering** – binary analysis, IDA/Ghidra scripts, unpacking  
+- **Cloud Security** – AWS/Azure penetration testing, container escapes  
+- **Exploit Development** – 1‑day / 0‑day research, fuzzing, kernel exploits  
 
 ---
 
-## 📂 Project Structure
+## 🛠 Featured Tools
+
+| Tool | Description | Link |
+|------|-------------|------|
+| **Evil‑ginx3** | Advanced phishing framework with 2FA bypass | [GitHub](https://github.com/LEXOLEN/evil-ginx3) |
+| **BloodHound‑CE** | Active Directory attack path mapping | [GitHub](https://github.com/LEXOLEN/BloodHound-CE) |
+| **PE‑sieve** | Malware unpacking and process inspection | [GitHub](https://github.com/LEXOLEN/pe-sieve) |
+| **AutoRecon** | Multi‑threaded network reconnaissance | [GitHub](https://github.com/LEXOLEN/autorecon) |
+
+*More tools available in the [GitHub organization](https://github.com/LEXOLEN/).*
+
+---
+
+## 📂 Repository Structure
 
 ```plaintext
 LEXOLEN/
@@ -59,51 +77,65 @@ LEXOLEN/
 ├── README.md
 ├── LEXOLEN-logo.gif
 │
-└── src/
-    └── (project source code)
+├── tools/               # Individual tool directories
+│   ├── evil-nginx3/
+│   ├── BloodHound-CE/
+│   └── ...
+│
+├── research/            # Whitepapers, blog posts, PoCs
+│
+├── ctf/                 # CTF write‑ups and challenge materials
+│
+└── scripts/             # Utility scripts (automation, enumeration)
 ```
 
 ---
 
-## 🛠 Installation
+## ⚡ Quick Start
+
+Clone the repository and explore the tools:
 
 ```bash
 git clone https://github.com/LEXOLEN/LEXOLEN.git
 cd LEXOLEN
-# Optional dependencies installation
-pip install -r requirements.txt
+# Most tools have their own setup instructions – see individual READMEs
 ```
 
 ---
 
-## 📖 Usage
+## 📖 Usage Examples
+
+Each tool includes its own documentation. For a quick demo of the **AutoRecon** tool:
 
 ```bash
-# Run the main tool
-python main.py
+cd tools/autorecon
+python autorecon.py -t 192.168.1.0/24
 ```
-
-Instructions and examples will be added as the project evolves.
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a branch (`git checkout -b feature/YourFeature`)
-3. Commit changes (`git commit -m 'Add feature'`)
-4. Push branch (`git push origin feature/YourFeature`)
-5. Open a pull request
+We welcome contributions! If you have a bug fix, new tool, or research paper:
+
+1. Fork the repository  
+2. Create a feature branch (`git checkout -b feature/AmazingTool`)  
+3. Commit your changes (`git commit -m 'Add amazing tool'`)  
+4. Push to the branch (`git push origin feature/AmazingTool`)  
+5. Open a **Pull Request**
+
+Please ensure your contributions align with responsible disclosure and ethical use.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License.  
-See the LICENSE file for details.
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.  
+*Use responsibly and only on systems you own or have permission to test.*
 
 ---
 
 <p align="center">
-  Built with ❤️ and ⚡ by the LEXOLEN Team
+  <strong>We break things to make them unbreakable.</strong><br>
+  Built with 💀 and ⚡ by the LEXOLEN team
 </p>
