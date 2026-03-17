@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LEXOLEN - Your Ultimate Project Landing Page</title>
 
-  <!-- Security-related meta (note: some headers are best set server-side) -->
+  <!-- Content-Security-Policy (meta fallback; set strong CSP server-side) -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'nonce-random123' 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self';" />
+        content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'nonce-xyz123' 'self'; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self';" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-
-  <!-- Favicons and theme color (optional) -->
   <meta name="theme-color" content="#007BFF" />
 
-  <!-- Basic, professional styles -->
   <style>
     :root{
       --brand:#007BFF;
@@ -22,63 +19,46 @@
       --bg:#f4f4f4;
       --card:#ffffff;
       --muted:#6b7280;
-      --radius:10px;
+      --radius:12px;
       --max-width:1100px;
-      --gap:20px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      color-scheme: light;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     }
-
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%;margin:0}
     body{
-      margin:0;
       background:var(--bg);
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:var(--gap);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      color:#111827;
     }
 
-    a{color:inherit}
+    .skip-link{
+      position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;
+    }
+    .skip-link:focus{
+      left:8px;top:8px;width:auto;height:auto;padding:8px 12px;background:#000;color:#fff;border-radius:6px;z-index:9999;
+    }
+
     header{
       width:100%;
       background:linear-gradient(90deg,var(--brand),var(--brand-dark));
       color:#fff;
       padding:18px 16px;
       display:flex;
-      align-items:center;
       justify-content:center;
+      align-items:center;
       box-shadow:0 2px 8px rgba(2,6,23,0.08);
     }
-    header h1{margin:0;font-size:1.25rem;letter-spacing:0.2px}
-
-    .skip-link{
-      position:absolute;
-      left:-999px;
-      top:auto;
-      width:1px;
-      height:1px;
-      overflow:hidden;
-    }
-    .skip-link:focus{
-      left:8px;
-      top:8px;
-      width:auto;
-      height:auto;
-      padding:8px 12px;
-      background:#000;
-      color:#fff;
-      z-index:9999;
-      border-radius:6px;
-    }
+    header h1{margin:0;font-size:1.15rem;letter-spacing:0.2px}
 
     .hero{
-      width:100%;
+      width:90%;
       max-width:var(--max-width);
       height:320px;
+      margin-top:20px;
       border-radius:var(--radius);
       overflow:hidden;
       display:flex;
@@ -86,8 +66,9 @@
       justify-content:center;
       color:#fff;
       text-align:center;
-      background-color:#0b5ed7;
-      background-image:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.18));
+      background:
+        linear-gradient(180deg, rgba(2,6,23,0.18), rgba(2,6,23,0.28)),
+        url('hero-image.jpg') center/cover no-repeat;
       box-shadow:0 6px 20px rgba(2,6,23,0.08);
       padding:24px;
     }
@@ -96,17 +77,16 @@
     .container{
       width:90%;
       max-width:var(--max-width);
-      margin:0 auto;
       display:grid;
       grid-template-columns:1fr;
-      gap:var(--gap);
-      padding-bottom:40px;
+      gap:20px;
+      margin:20px auto 48px;
     }
 
     .card{
       background:var(--card);
       padding:20px;
-      border-radius:var(--radius);
+      border-radius:12px;
       box-shadow:0 2px 10px rgba(2,6,23,0.06);
     }
 
@@ -116,8 +96,9 @@
       gap:16px;
     }
 
-    h2,h3{color:#111827;margin:0 0 12px 0}
-    p{color:var(--muted);line-height:1.5;margin:0 0 12px 0}
+    h2{margin:0 0 12px 0;color:#0f172a}
+    p{color:var(--muted);line-height:1.6;margin:0 0 12px 0}
+    ul{margin:0 0 12px 1.15rem;color:var(--muted)}
 
     .btn{
       display:inline-block;
@@ -128,6 +109,7 @@
       text-decoration:none;
       transition:transform .12s ease, background .12s ease;
       font-weight:600;
+      margin-right:8px;
     }
     .btn:hover{transform:translateY(-2px);background:var(--brand-dark)}
     .btn.secondary{background:#111827}
@@ -138,13 +120,11 @@
       color:#fff;
       padding:18px 16px;
       text-align:center;
-      border-top-left-radius:12px;
-      border-top-right-radius:12px;
     }
 
-    ul{padding-left:1.15rem}
+    code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:.95em}
     @media (min-width:900px){
-      .container{grid-template-columns:1fr 360px;align-items:start}
+      .container{grid-template-columns:1fr 340px;align-items:start}
       .hero{height:360px}
     }
   </style>
@@ -157,14 +137,14 @@
   </header>
 
   <main id="main" class="container" role="main" aria-labelledby="about-heading">
-    <section class="hero card" aria-hidden="false" role="region" aria-label="Hero">
+    <section class="hero card" role="region" aria-label="Hero">
       <h2>Your Ultimate Resource for Modern Solutions</h2>
     </section>
 
-    <div class="card" role="region" aria-labelledby="about-heading">
+    <section class="card" aria-labelledby="about-heading">
       <h2 id="about-heading">About Us</h2>
       <p><strong>LEXOLEN</strong> builds powerful tools, automation systems, and intelligent solutions to improve productivity and streamline digital workflows.</p>
-      <p>We focus on modular, secure, and developer-friendly systems that scale with your needs.</p>
+      <p>We design modular, secure, and developer-friendly systems that scale with your needs.</p>
 
       <div class="grid-2" style="margin-top:12px">
         <div>
@@ -178,16 +158,17 @@
 
         <div>
           <h3>Getting Started</h3>
-          <p>Clone the repository, install optional dependencies, and run the main tool as documented in the README.</p>
+          <p>Clone the repository and follow the README for installation and usage instructions.</p>
           <p style="font-size:.9rem;color:var(--muted)">Example: <code>git clone https://github.com/LEXOLEN/LEXOLEN.git</code></p>
         </div>
       </div>
 
       <div style="margin-top:16px" aria-label="Project links">
-        <a class="btn" href="https://github.com/LEXOLEN" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="btn" href="https://lexolen.github.io/LEXOLEN/" target="_blank" rel="noopener noreferrer" style="margin-left:8px">Website</a>
+        <a class="btn" href="https://t.co/zNak0mYlq2" target="_blank" rel="noopener noreferrer">Website</a>
+        <a class="btn" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn" href="https://linktr.ee/lexolen" target="_blank" rel="noopener noreferrer">Linktree</a>
       </div>
-    </div>
+    </section>
 
     <aside class="card" role="complementary" aria-labelledby="connect-heading">
       <h2 id="connect-heading">Connect with Us</h2>
@@ -196,6 +177,7 @@
         <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px">
           <li><a class="btn secondary" href="https://www.instagram.com/lex_olen/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
           <li><a class="btn secondary" href="https://x.com/LEXOLEN111" target="_blank" rel="noopener noreferrer">X (Twitter)</a></li>
+          <li><a class="btn secondary" href="https://www.facebook.com/profile.php?id=61580727338902" target="_blank" rel="noopener noreferrer">Facebook</a></li>
           <li><a class="btn secondary" href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
         </ul>
       </nav>
@@ -206,35 +188,28 @@
     <p>&copy; 2026 LEXOLEN. All rights reserved.</p>
   </footer>
 
-  <!-- Minimal, safe JS: no eval, no external libs. Uses a nonce that matches CSP. -->
-  <script nonce="random123">
+  <!-- Minimal, safe JS. Nonce matches CSP meta above. No eval, no external libs. -->
+  <script nonce="xyz123">
     'use strict';
-    (function(){
-      // Defensive: ensure DOM is ready before running interactive code
+    (function () {
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
       } else {
         init();
       }
-
-      function init(){
-        // Example: ensure all external links have safe attributes (defense-in-depth)
+      function init() {
         try {
           var anchors = document.querySelectorAll('a[target="_blank"]');
-          anchors.forEach(function(a){
-            // Enforce rel attributes if missing
+          anchors.forEach(function (a) {
             var rel = a.getAttribute('rel') || '';
             if (!/\bnoopener\b/.test(rel)) rel = (rel + ' noopener').trim();
             if (!/\bnoreferrer\b/.test(rel)) rel = (rel + ' noreferrer').trim();
             a.setAttribute('rel', rel);
           });
         } catch (e) {
-          // Fail silently; do not leak errors to the page
-          console.error('Init script error', e);
+          if (window.console && console.error) console.error('Init script error');
         }
       }
-
-      // Expose nothing to global scope
     })();
   </script>
 </body>
