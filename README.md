@@ -1,4 +1,4 @@
-## Hi there 👋
+##
 
 <p align="center">
   <img src="LEXOLEN-logo.gif" width="180" alt="LEXOLEN Logo">
