@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LEXOLEN · offensive security & threat research</title>
+  <title>LEXOLEN · offensive security & tooling</title>
 
   <!-- strong CSP (also set server‑side) -->
   <meta http-equiv="Content-Security-Policy"
@@ -13,22 +13,23 @@
   <meta name="theme-color" content="#00ff9d" />
 
   <style>
-    /* –– cyber theme –– */
+    /* –– cyberpunk 2.0 –– */
     :root {
       --bg: #0a0c0f;
-      --card-bg: #13171c;
+      --bg-lighter: #13181f;
       --accent: #00ff9d;
-      --accent-dim: #00cc7a;
+      --accent-dim: #00cc88;
       --text: #e2e8f0;
       --text-muted: #94a3b8;
-      --border-glow: 0 0 8px rgba(0, 255, 157, 0.3);
-      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --border: #2d3748;
+      --glow: 0 0 15px rgba(0, 255, 157, 0.3);
+      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
       --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       --radius: 8px;
-      --max-width: 1200px;
+      --max-width: 1300px;
     }
 
-    * { box-sizing: border-box; margin: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: var(--bg);
@@ -41,7 +42,6 @@
       min-height: 100vh;
     }
 
-    /* skip link */
     .skip-link {
       position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden;
     }
@@ -51,248 +51,459 @@
       border-radius: var(--radius); z-index: 9999; text-decoration: none;
     }
 
+    /* header with navigation */
     header {
       width: 100%;
-      background: #0f1217;
+      background: #0f1419;
       border-bottom: 2px solid var(--accent);
-      padding: 1.2rem 1.5rem;
+      padding: 0.8rem 2rem;
       display: flex;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(0, 255, 157, 0.08);
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 255, 157, 0.1);
     }
 
-    header h1 {
+    .logo {
       font-family: var(--font-mono);
-      font-size: 1.4rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent);
       letter-spacing: 1px;
-      text-transform: uppercase;
+    }
+
+    .logo span {
+      color: var(--text);
+      font-size: 1rem;
+      margin-left: 0.5rem;
+      text-shadow: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    nav a:hover {
       color: var(--accent);
       text-shadow: 0 0 5px var(--accent);
-      margin: 0;
     }
 
-    .hero {
-      width: 90%;
-      max-width: var(--max-width);
-      margin-top: 2rem;
-      padding: 3rem 2rem;
-      background: 
-        linear-gradient(135deg, rgba(0, 255, 157, 0.1) 0%, rgba(10, 12, 15, 0.9) 80%),
-        radial-gradient(circle at 20% 30%, #1a2f2a, transparent 50%);
-      border: 1px solid rgba(0, 255, 157, 0.3);
-      box-shadow: var(--border-glow);
-      border-radius: var(--radius);
-      text-align: center;
-    }
-
-    .hero h2 {
-      font-family: var(--font-mono);
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      font-weight: 500;
-      line-height: 1.3;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      word-break: break-word;
-    }
-
+    /* main container: 3 columns */
     .container {
       width: 90%;
       max-width: var(--max-width);
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 280px;
       gap: 2rem;
       margin: 2rem auto 3rem;
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid #2a2f36;
+    /* left column – main content */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* hero with terminal simulation */
+    .hero {
+      background: var(--bg-lighter);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 20px -10px #000;
+      font-family: var(--font-mono);
+    }
+
+    .terminal-line {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .prompt {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .command {
+      color: #f0f0f0;
+    }
+
+    .output {
+      color: #bbccdd;
+      margin-left: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.2rem;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* glitch effect on hover */
+    .glitch:hover {
+      animation: glitch 0.3s infinite;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 1px); }
+      40% { transform: translate(2px, -1px); }
+      60% { transform: translate(-1px, 0); }
+      80% { transform: translate(1px, -1px); }
+      100% { transform: translate(0); }
+    }
+
+    /* section cards */
+    .section-card {
+      background: var(--bg-lighter);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.8rem;
-      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5);
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s;
     }
 
-    .card:hover {
+    .section-card:hover {
       border-color: var(--accent);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
     }
 
     h2 {
       font-family: var(--font-mono);
+      font-size: 1.8rem;
       color: var(--accent);
-      font-size: 1.6rem;
-      margin: 0 0 1rem 0;
-      border-left: 4px solid var(--accent);
-      padding-left: 1rem;
-    }
-
-    h3 {
-      color: var(--text);
-      font-size: 1.3rem;
-      margin: 0 0 0.8rem 0;
-    }
-
-    p {
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-
-    ul {
-      margin: 0.5rem 0 1rem 1.5rem;
-      color: var(--text-muted);
-    }
-
-    li {
-      margin-bottom: 0.4rem;
-    }
-
-    code {
-      background: #1e242b;
-      color: #ffaa77;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-    }
-
-    .btn {
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
       display: inline-block;
-      background: transparent;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 0.6rem 1.4rem;
-      margin: 0.25rem 0.5rem 0.25rem 0;
-      border-radius: 40px;
-      font-weight: 600;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .tool-card {
+      background: #1e262f;
+      border: 1px solid #2f3a47;
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      transition: all 0.2s;
+    }
+
+    .tool-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    .tool-card h3 {
       font-family: var(--font-mono);
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-card p {
+      color: var(--text-muted);
       font-size: 0.9rem;
-      transition: all 0.15s ease;
-      box-shadow: 0 0 5px transparent;
     }
 
-    .btn:hover {
-      background: var(--accent);
-      color: #000;
-      box-shadow: var(--border-glow);
-      transform: translateY(-2px);
+    .tool-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
     }
 
-    .btn.secondary {
-      border-color: #5f6b7a;
-      color: #e2e8f0;
+    .tool-link:hover {
+      text-decoration: underline;
     }
 
-    .btn.secondary:hover {
-      background: #5f6b7a;
-      border-color: #5f6b7a;
-      color: #fff;
-      box-shadow: none;
+    /* blog preview */
+    .blog-list {
+      list-style: none;
     }
 
-    .social-grid {
+    .blog-list li {
+      margin-bottom: 1.2rem;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 0.8rem;
+    }
+
+    .blog-list a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .blog-list a:hover {
+      color: var(--accent);
+    }
+
+    .blog-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-card {
+      background: var(--bg-lighter);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .sidebar-card h3 {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 0.8rem;
+    }
+
+    .social-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1rem;
+      gap: 0.8rem;
+    }
+
+    .social-btn {
+      background: transparent;
+      border: 1px solid #3a4553;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .pgp-key {
+      background: #1a2129;
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #ffaa77;
+      word-break: break-all;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.2rem 0;
     }
 
     footer {
       width: 100%;
-      background: #0f1217;
+      background: #0f1419;
       border-top: 1px solid var(--accent);
       padding: 1.8rem;
       text-align: center;
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    @media (min-width: 900px) {
+    @media (max-width: 900px) {
       .container {
-        grid-template-columns: 2fr 1fr;
-        align-items: start;
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">[ skip to content ]</a>
+  <a class="skip-link" href="#main-content">[ skip to main content ]</a>
 
-  <header role="banner">
-    <h1>LEXOLEN // cyber operations</h1>
+  <header>
+    <div class="logo">LEXOLEN<span>// offensive ops</span></div>
+    <nav>
+      <a href="#">tools</a>
+      <a href="#">research</a>
+      <a href="#">blog</a>
+      <a href="#">ctf</a>
+    </nav>
   </header>
 
-  <main id="main" class="container" role="main">
-
-    <!-- left column: hero + about + featured -->
-    <section class="hero" aria-label="cybersecurity focus">
-      <h2>offensive security · threat intel · red tooling</h2>
-    </section>
-
-    <section class="card" aria-labelledby="about-heading">
-      <h2 id="about-heading"># whois lexolen</h2>
-      <p><strong>LEXOLEN</strong> is a cybersecurity research cell focused on red teaming, vulnerability development, and defensive automation. We build open‑source tools, publish technical write‑ups, and share adversary tradecraft to help the community stay ahead.</p>
-      <p>Our work spans binary exploitation, cloud security, threat hunting, and purple team exercises. Everything we release is battle‑tested in labs and real‑world engagements.</p>
-
-      <div class="grid-2">
-        <div>
-          <h3>🔧 focus areas</h3>
-          <ul>
-            <li>penetration testing frameworks</li>
-            <li>zero‑day / 1‑day research</li>
-            <li>automated threat detection</li>
-            <li>malware analysis & reverse engineering</li>
-          </ul>
+  <div class="container">
+    <!-- main column -->
+    <div class="main-content" id="main-content">
+      <!-- terminal hero -->
+      <section class="hero glitch">
+        <div class="terminal-line">
+          <span class="prompt">┌──(lexolen㉿kali)-[~]</span>
         </div>
-        <div>
-          <h3>⚡ quick start</h3>
-          <p>Clone our security tooling from GitHub and start contributing.</p>
-          <p><code>git clone https://github.com/LEXOLEN/arsenal.git</code></p>
+        <div class="terminal-line">
+          <span class="prompt">└─$</span>
+          <span class="command">whois lexolen</span>
         </div>
+        <div class="output">
+          &nbsp;&nbsp;OSCP | OSWE | red team lead<br/>
+          &nbsp;&nbsp;offensive tooling • threat intel • malware research<br/>
+          &nbsp;&nbsp;github.com/LEXOLEN · 30+ public tools
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">└─$</span>
+          <span class="command">cat mission.txt</span>
+        </div>
+        <div class="output">
+          &nbsp;&nbsp;"We break things to make them unbreakable.<br/>
+          &nbsp;&nbsp; Open source security for the defenders."<span class="cursor"></span>
+        </div>
+      </section>
+
+      <!-- core capabilities -->
+      <section class="section-card">
+        <h2># core capabilities</h2>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <h3>🛡️ Red Teaming</h3>
+            <p>Adversary emulation, C2 infrastructure, evasive payloads.</p>
+          </div>
+          <div class="tool-card">
+            <h3>🔍 Threat Intel</h3>
+            <p>IOC harvesting, YARA rules, malware trend analysis.</p>
+          </div>
+          <div class="tool-card">
+            <h3>💣 Reverse Engineering</h3>
+            <p>Binary analysis, IDA/Ghidra scripts, unpacking.</p>
+          </div>
+          <div class="tool-card">
+            <h3>⚡ Cloud Security</h3>
+            <p>AWS/Azure penetration testing, container escapes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- featured tools (with your github links) -->
+      <section class="section-card">
+        <h2># featured arsenal</h2>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <h3>Evil‑ginx3</h3>
+            <p>Advanced phishing framework with 2FA bypass.</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+          </div>
+          <div class="tool-card">
+            <h3>BloodHound‑CE</h3>
+            <p>Active Directory attack path mapping.</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+          </div>
+          <div class="tool-card">
+            <h3>PE‑sieve</h3>
+            <p>Malware unpacking and process inspection.</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+          </div>
+          <div class="tool-card">
+            <h3>AutoRecon</h3>
+            <p>Multi‑threaded network reconnaissance.</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- latest research / blog preview -->
+      <section class="section-card">
+        <h2># latest from blog</h2>
+        <ul class="blog-list">
+          <li>
+            <a href="#">Bypassing EDR with direct syscalls – a practical guide</a>
+            <div class="blog-meta">2026-03-15 · #edr #redteam</div>
+          </li>
+          <li>
+            <a href="#">Hunting for Cobalt Strike in encrypted traffic</a>
+            <div class="blog-meta">2026-03-10 · #threathunt #blueteam</div>
+          </li>
+          <li>
+            <a href="#">Linux kernel exploit development – heap spraying</a>
+            <div class="blog-meta">2026-03-02 · #exploit #linux</div>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h3>connect</h3>
+        <div class="social-links">
+          <a class="social-btn" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">github</a>
+          <a class="social-btn" href="https://x.com/LEXOLEN111" target="_blank" rel="noopener">x/twitter</a>
+          <a class="social-btn" href="https://www.instagram.com/lex_olen/" target="_blank" rel="noopener">instagram</a>
+          <a class="social-btn" href="https://www.facebook.com/profile.php?id=61580727338902" target="_blank" rel="noopener">facebook</a>
+          <a class="social-btn" href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank" rel="noopener">linkedin</a>
+          <a class="social-btn" href="http://t.co/zNak0mYlq2" target="_blank" rel="noopener">website</a>
+          <a class="social-btn" href="https://linktr.ee/lexolen" target="_blank" rel="noopener">linktree</a>
+        </div>
+        <hr />
+        <h3>pgp key</h3>
+        <div class="pgp-key">
+          -----BEGIN PGP PUBLIC KEY BLOCK-----<br />
+          xjMEZ2dFpxYJKwYBBAHaRw8BAQdA...<br />
+          -----END PGP PUBLIC KEY BLOCK-----
+        </div>
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">fingerprint: 9F8E 2C4A 7D1B 6E3F 8A2C 5D7E 9B1A 3C4D 5E6F 7A8B</p>
       </div>
 
-      <!-- primary project links -->
-      <div style="margin-top: 1.5rem;" aria-label="project links">
-        <a class="btn" href="http://t.co/zNak0mYlq2" target="_blank" rel="noopener noreferrer">[ website ]</a>
-        <a class="btn" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener noreferrer">[ github ]</a>
-        <a class="btn" href="https://linktr.ee/lexolen" target="_blank" rel="noopener noreferrer">[ linktree ]</a>
+      <div class="sidebar-card">
+        <h3>upcoming</h3>
+        <ul style="list-style: none; color: var(--text-muted);">
+          <li>➤ DEF CON 32 – Arsenal talk</li>
+          <li>➤ 0x7C2 lab release</li>
+          <li>➤ free ctf: 2026-04-01</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- right column: connect / social aside -->
-    <aside class="card" role="complementary" aria-labelledby="connect-heading">
-      <h2 id="connect-heading"># connect</h2>
-      <p style="color:var(--text-muted);">Follow for threat updates, tool releases, and security research.</p>
-      <nav aria-label="social channels">
-        <div class="social-grid">
-          <a class="btn secondary" href="https://www.instagram.com/lex_olen/" target="_blank" rel="noopener noreferrer">instagram</a>
-          <a class="btn secondary" href="https://x.com/LEXOLEN111" target="_blank" rel="noopener noreferrer">x / twitter</a>
-          <a class="btn secondary" href="https://www.facebook.com/profile.php?id=61580727338902" target="_blank" rel="noopener noreferrer">facebook</a>
-          <a class="btn secondary" href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank" rel="noopener noreferrer">linkedin</a>
-          <!-- all links from the original list are present above -->
-        </div>
-      </nav>
-      <hr style="border:0;border-top:1px solid #2a2f36;margin:1.5rem 0 1rem;" />
-      <p style="font-size:0.9rem; color:var(--text-muted);">
-        pgp fingerprint: <code style="background:#000;">9F8E 2C4A 7D1B 6E3F ...</code>
-      </p>
     </aside>
-  </main>
+  </div>
 
-  <footer role="contentinfo">
-    <p>© 2026 LEXOLEN — operate with integrity. |  all rights reversed? no, all rights reserved.</p>
+  <footer>
+    <p>© 2026 LEXOLEN – offensive security research.  |  operate with integrity.</p>
   </footer>
 
-  <!-- minimal js: ensures rel="noopener noreferrer" on all _blank links -->
+  <!-- minimal js: ensure noopener/noreferrer -->
   <script nonce="xyz123">
     'use strict';
     (function() {
