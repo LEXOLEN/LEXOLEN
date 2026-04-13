@@ -673,6 +673,17 @@ Please ensure your contributions align with responsible disclosure and ethical u
 
 ---
 
+## ⚖️ Ownership and Attribution Notice
+
+Important Disclaimer: <strong> TEAM LEXOLEN </strong> does not claim ownership of forked repositories, third-party add-ons, dependencies, or any external resources referenced, linked, or included in our repositories.
+
+- All listed tools (e.g., Evil-ginx3, BloodHound-CE, PE-sieve, AutoRecon) are forks or modified versions of original open-source projects. Original authors and upstream repositories retain full ownership and intellectual property rights.
+- We explicitly credit and link to original sources where applicable. Forked repos maintain their original licenses (typically MIT, GPL, or Apache 2.0).
+- Third-party icons, badges, skill icons (from skillicons.dev), and external images are used under fair use/attribution terms and remain property of their respective owners.
+- Any contributions, integrations, or add-ons from external sources are included for research, testing, and community convenience only.
+
+---
+
 ## 📜 License
 
 This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.  
