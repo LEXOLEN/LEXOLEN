@@ -163,26 +163,6 @@
       background: var(--accent);
       vertical-align: middle;
       margin-left: 4px;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
-    /* glitch effect on hover */
-    .glitch:hover {
-      animation: glitch 0.3s infinite;
-    }
-
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 1px); }
-      40% { transform: translate(2px, -1px); }
-      60% { transform: translate(-1px, 0); }
-      80% { transform: translate(1px, -1px); }
-      100% { transform: translate(0); }
     }
 
     /* section cards */
@@ -367,10 +347,10 @@
   <header>
     <div class="logo">LEXOLEN<span>// offensive ops</span></div>
     <nav>
-      <a href="#">tools</a>
-      <a href="#">research</a>
-      <a href="#">blog</a>
-      <a href="#">ctf</a>
+      <a href="#about">about</a>
+      <a href="#tools">tools</a>
+      <a href="#research">research</a>
+      <a href="#connect">connect</a>
     </nav>
   </header>
 
@@ -378,27 +358,37 @@
     <!-- main column -->
     <div class="main-content" id="main-content">
       <!-- terminal hero -->
-      <section class="hero glitch">
+      <section class="hero">
         <div class="terminal-line">
           <span class="prompt">┌──(lexolen㉿kali)-[~]</span>
         </div>
         <div class="terminal-line">
           <span class="prompt">└─$</span>
-          <span class="command">whois lexolen</span>
+          <span class="command">echo "offensive security · threat intelligence · red team tooling"</span>
         </div>
         <div class="output">
-          &nbsp;&nbsp;OSCP | OSWE | red team lead<br/>
-          &nbsp;&nbsp;offensive tooling • threat intel • malware research<br/>
-          &nbsp;&nbsp;github.com/LEXOLEN · 30+ public tools
+          &nbsp;&nbsp;Status: active · Version: 1.0 · License: MIT · OSCP/OSWE-ready<br/>
+          &nbsp;&nbsp;Open source research, tooling, and tradecraft for modern defenders.
         </div>
         <div class="terminal-line">
           <span class="prompt">└─$</span>
-          <span class="command">cat mission.txt</span>
+          <span class="command">cat README.md</span>
         </div>
         <div class="output">
-          &nbsp;&nbsp;"We break things to make them unbreakable.<br/>
-          &nbsp;&nbsp; Open source security for the defenders."<span class="cursor"></span>
+          &nbsp;&nbsp;A cybersecurity collective focused on red teaming, vulnerability development, and defensive automation.<span class="cursor"></span>
         </div>
+      </section>
+
+      <section class="section-card" id="about">
+        <h2># about TEAM LEXOLEN</h2>
+        <p>LEXOLEN is a cybersecurity research collective focused on red teaming, vulnerability development, and defensive automation. We build open-source offensive security tools, publish technical research, and share adversary tradecraft to help the community stay ahead.</p>
+        <ul style="list-style: disc; padding-left: 1.4rem; color: var(--text-muted); margin-top: 1rem;">
+          <li><strong>Red Teaming</strong> – adversary emulation, C2 infrastructure, evasive payloads.</li>
+          <li><strong>Threat Intelligence</strong> – IOC harvesting, YARA rules, malware trend analysis.</li>
+          <li><strong>Reverse Engineering</strong> – binary analysis, IDA/Ghidra scripts, unpacking.</li>
+          <li><strong>Cloud Security</strong> – AWS/Azure penetration testing, container escapes.</li>
+          <li><strong>Exploit Development</strong> – 1-day / 0-day research, fuzzing, kernel exploits.</li>
+        </ul>
       </section>
 
       <!-- core capabilities -->
@@ -421,38 +411,71 @@
             <h3>⚡ Cloud Security</h3>
             <p>AWS/Azure penetration testing, container escapes.</p>
           </div>
+          <div class="tool-card">
+            <h3>💥 Exploit Development</h3>
+            <p>1-day / 0-day research, fuzzing, kernel exploit prototyping.</p>
+          </div>
         </div>
       </section>
 
       <!-- featured tools (with your github links) -->
-      <section class="section-card">
+      <section class="section-card" id="tools">
         <h2># featured arsenal</h2>
         <div class="tool-grid">
           <div class="tool-card">
             <h3>Evil‑ginx3</h3>
-            <p>Advanced phishing framework with 2FA bypass.</p>
-            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+            <p>Advanced phishing framework with 2FA bypass. Release v3.1.0</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/evil-ginx3" target="_blank" rel="noopener">→ github</a>
           </div>
           <div class="tool-card">
             <h3>BloodHound‑CE</h3>
-            <p>Active Directory attack path mapping.</p>
-            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+            <p>Active Directory attack path mapping. Release v5.0.0</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/BloodHound-CE" target="_blank" rel="noopener">→ github</a>
           </div>
           <div class="tool-card">
             <h3>PE‑sieve</h3>
-            <p>Malware unpacking and process inspection.</p>
-            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+            <p>Malware unpacking and process inspection. Release v0.3.5</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/pe-sieve" target="_blank" rel="noopener">→ github</a>
           </div>
           <div class="tool-card">
             <h3>AutoRecon</h3>
-            <p>Multi‑threaded network reconnaissance.</p>
-            <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">→ github</a>
+            <p>Multi‑threaded network reconnaissance. Release v2.0.1</p>
+            <a class="tool-link" href="https://github.com/LEXOLEN/autorecon" target="_blank" rel="noopener">→ github</a>
+          </div>
+        </div>
+        <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;">More tools available in the <a class="tool-link" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">LEXOLEN GitHub organization</a>.</p>
+      </section>
+
+      <!-- tech stack -->
+      <section class="section-card">
+        <h2># tech stack</h2>
+        <p>Our tooling and research are backed by a modern, full-stack security ecosystem.</p>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <h3>Next.js</h3>
+            <p>Modern frontend with fast static rendering and dynamic tooling pages.</p>
+          </div>
+          <div class="tool-card">
+            <h3>Vite</h3>
+            <p>Fast build tooling for developer experience and performance.</p>
+          </div>
+          <div class="tool-card">
+            <h3>Node.js + Express</h3>
+            <p>Server tooling and API integration for research workflows.</p>
+          </div>
+          <div class="tool-card">
+            <h3>MongoDB / MySQL / PostgreSQL</h3>
+            <p>Multi-database support for telemetry, logging, and data capture.</p>
+          </div>
+          <div class="tool-card">
+            <h3>Prisma</h3>
+            <p>Type-safe ORM for secure data management and rapid iteration.</p>
           </div>
         </div>
       </section>
 
       <!-- latest research / blog preview -->
-      <section class="section-card">
+      <section class="section-card" id="research">
         <h2># latest from blog</h2>
         <ul class="blog-list">
           <li>
@@ -506,7 +529,7 @@
   </div>
 
   <footer>
-    <p>© 2026 LEXOLEN – offensive security research.  |  operate with integrity.</p>
+    <p>© 2026 LEXOLEN – offensive security research. MIT License. Use responsibly and only on systems you own or have permission to test.</p>
   </footer>
 
   <!-- minimal js: ensure noopener/noreferrer -->
