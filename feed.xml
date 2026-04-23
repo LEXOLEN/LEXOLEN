@@ -1,218 +1,41 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>feed</title>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>LEXOLEN Blog Feed</title>
+    <link>https://lexolen.github.io/LEXOLEN/</link>
+    <description>Latest research and blog posts from LEXOLEN</description>
+    <language>en</language>
+    <lastBuildDate>Thu, 23 Apr 2026 17:00:00 GMT</lastBuildDate>
 
-<!-- latest research / blog preview -->
-      <section class="section-card" id="research">
-        <h2># latest from blog</h2>
-        <ul class="blog-list">
-          <li>
-            <a href="#">Bypassing EDR with direct syscalls – a practical guide</a>
-            <div class="blog-meta">2026-03-15 · #edr #redteam</div>
-          </li>
-          <li>
-            <a href="#">Hunting for Cobalt Strike in encrypted traffic</a>
-            <div class="blog-meta">2026-03-10 · #threathunt #blueteam</div>
-          </li>
-          <li>
-            <a href="#">Linux kernel exploit development – heap spraying</a>
-            <div class="blog-meta">2026-03-02 · #exploit #linux</div>
-          </li>
-        </ul>
-        <script nonce="xyz123">
-'use strict';
-(async function() {
-  // --- CONFIG ---
-  const feeds = [
-    "https://www.therundown.ai/feed.xml",
-    "https://techcrunch.com/feed/",
-    "https://www.theverge.com/rss/index.xml",
-    "https://www.technologyreview.com/feed/",
-    "https://arstechnica.com/feed/",
-    "https://blog.google/technology/ai/rss/",
-    "https://rss.arxiv.org/rss/cs.AI",
-    "https://openai.com/feed.xml",
-    "https://www.marktechpost.com/feed/",
-    "https://hnrss.org/frontpage?points=100",
-    "https://blog.bytebytego.com/feed",
-    "https://github.blog/feed/"
-  ];
-  const ALLOWED_DOMAINS = ["github.com", "rss.arxiv.org", "blog.bytebytego.com", "hnrss.org", "marktechpost.com", "openai.com", "blog.google", "therundown.ai","techcrunch.com","theverge.com","technologyreview.com","arstechnica.com"];
-  const BLACKLIST = ["car","cars","bmw","review","reviews","gear","automotive","auto","motor","motors","vehicle","vehicles","fashion","lifestyle","movie","tv","sports"];
-  const KEYWORDS = ['ai','security','cyber','vulnerability','exploit','ransomware','malware','cve','cloud','kubernetes','kernel','firmware','privacy','encryption','iot','edge','chip','cpu','gpu'];
-  const TARGET_COUNT = 5;
+    <item>
+      <title>Bypassing EDR with direct syscalls – a practical guide</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/bypassing-edr</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/bypassing-edr</guid>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate>
+      <category>edr</category>
+      <category>redteam</category>
+      <description>A practical walkthrough on bypassing endpoint detection and response solutions using direct syscalls.</description>
+    </item>
 
-  // --- CACHE SETTINGS ---
-  const CACHE_KEY = 'tech_feed_cache';
-  const CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
+    <item>
+      <title>Hunting for Cobalt Strike in encrypted traffic</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/cobalt-strike</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/cobalt-strike</guid>
+      <pubDate>Tue, 10 Mar 2026 00:00:00 GMT</pubDate>
+      <category>threathunt</category>
+      <category>blueteam</category>
+      <description>Techniques for detecting Cobalt Strike activity hidden within encrypted network traffic.</description>
+    </item>
 
-  // --- DOM SELECTOR & FALLBACK ---
-  const listSelector = '#research .blog-list';
-  const listEl = document.querySelector(listSelector);
-  const fallbackHTML = `
-    <li>
-      <a href="#">Bypassing EDR with direct syscalls – a practical guide</a>
-      <div class="blog-meta">2026-03-15 · #edr #redteam</div>
-    </li>
-    <li>
-      <a href="#">Hunting for Cobalt Strike in encrypted traffic</a>
-      <div class="blog-meta">2026-03-10 · #threathunt #blueteam</div>
-    </li>
-    <li>
-      <a href="#">Linux kernel exploit development – heap spraying</a>
-      <div class="blog-meta">2026-03-02 · #exploit #linux</div>
-    </li>
-  `;
+    <item>
+      <title>Linux kernel exploit development – heap spraying</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/linux-heap-spray</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/linux-heap-spray</guid>
+      <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
+      <category>exploit</category>
+      <category>linux</category>
+      <description>Exploring heap spraying techniques in Linux kernel exploit development.</description>
+    </item>
 
-  if (!listEl) return;
-
-  // --- UTIL ---
-  function domainFromUrl(url) {
-    try { return new URL(url).hostname.replace(/^www\./,'').toLowerCase(); } catch (e) { return ''; }
-  }
-  function containsAny(arr, text='') { const t = (text||'').toLowerCase(); return arr.some(k => t.includes(k)); }
-
-  // --- RENDERER ---
-  function renderItems(items) {
-    if (!Array.isArray(items) || items.length === 0) {
-      listEl.innerHTML = fallbackHTML;
-      return;
-    }
-    listEl.innerHTML = '';
-    items.slice(0, TARGET_COUNT).forEach(it => {
-      const li = document.createElement('li');
-      const safeLink = (it.link || '#').replace(/"/g, '&quot;');
-      const safeTitle = (it.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      li.innerHTML = `
-        <a href="${safeLink}" target="_blank" rel="noopener noreferrer">${safeTitle}</a>
-        <div class="blog-meta">${it.pubDate || ''} · ${it.tags || '#tech'}</div>
-      `;
-      listEl.appendChild(li);
-    });
-  }
-
-  // --- FETCH + SELECTOR ---
-  async function fetchFeedsAndSelectItems() {
-    try {
-      const fetchPromises = feeds.map(url =>
-        fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url))
-          .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
-          .catch(err => { console.warn('Feed fetch failed for', url, err); return null; })
-      );
-      const results = await Promise.all(fetchPromises);
-      const items = [];
-
-      // Strict pass: keyword match + no blacklist + allowed domain
-      for (let i = 0; i < results.length && items.length < TARGET_COUNT; i++) {
-        const feed = results[i];
-        if (!feed || !Array.isArray(feed.items) || feed.items.length === 0) continue;
-        const feedLink = (feed.feed && feed.feed.link) ? feed.feed.link : feeds[i];
-        const feedDomain = domainFromUrl(feedLink);
-        if (!ALLOWED_DOMAINS.includes(feedDomain)) continue;
-
-        for (let j = 0; j < Math.min(feed.items.length, 10) && items.length < TARGET_COUNT; j++) {
-          const it = feed.items[j];
-          if (!it || !it.title || !it.link) continue;
-          const combined = `${it.title} ${it.description || ''} ${Array.isArray(it.categories) ? it.categories.join(' ') : ''}`.toLowerCase();
-          if (containsAny(BLACKLIST, combined)) continue;
-          if (!containsAny(KEYWORDS, combined)) continue;
-          if (items.some(x => x.link === it.link)) continue;
-          const pubDate = it.pubDate ? new Date(it.pubDate).toISOString().split('T')[0] : '';
-          const tags = Array.isArray(it.categories) && it.categories.length ? it.categories.slice(0,2).map(t => `#${t.replace(/\s+/g,'')}`).join(' ') : '#tech';
-          items.push({ title: it.title, link: it.link, pubDate, tags });
-          break;
-        }
-      }
-
-      // Looser pass: title-only keyword match
-      if (items.length < TARGET_COUNT) {
-        for (let i = 0; i < results.length && items.length < TARGET_COUNT; i++) {
-          const feed = results[i];
-          if (!feed || !Array.isArray(feed.items) || feed.items.length === 0) continue;
-          for (let j = 0; j < Math.min(feed.items.length, 8) && items.length < TARGET_COUNT; j++) {
-            const it = feed.items[j];
-            if (!it || !it.title || !it.link) continue;
-            const feedDomain = domainFromUrl(it.link);
-            if (!ALLOWED_DOMAINS.includes(feedDomain)) continue;
-            const titleOnly = (it.title || '').toLowerCase();
-            if (containsAny(BLACKLIST, titleOnly)) continue;
-            if (!containsAny(KEYWORDS, titleOnly)) continue;
-            if (items.some(x => x.link === it.link)) continue;
-            const pubDate = it.pubDate ? new Date(it.pubDate).toISOString().split('T')[0] : '';
-            const tags = Array.isArray(it.categories) && it.categories.length ? it.categories.slice(0,2).map(t => `#${t.replace(/\s+/g,'')}`).join(' ') : '#tech';
-            items.push({ title: it.title, link: it.link, pubDate, tags });
-            break;
-          }
-        }
-      }
-
-      // Final pass: first unique allowed-domain items (apply blacklist)
-      if (items.length < TARGET_COUNT) {
-        for (let i = 0; i < results.length && items.length < TARGET_COUNT; i++) {
-          const feed = results[i];
-          if (!feed || !Array.isArray(feed.items) || feed.items.length === 0) continue;
-          for (let j = 0; j < Math.min(feed.items.length, 6) && items.length < TARGET_COUNT; j++) {
-            const it = feed.items[j];
-            if (!it || !it.title || !it.link) continue;
-            const feedDomain = domainFromUrl(it.link);
-            if (!ALLOWED_DOMAINS.includes(feedDomain)) continue;
-            const combined = `${it.title} ${it.description || ''}`.toLowerCase();
-            if (containsAny(BLACKLIST, combined)) continue;
-            if (items.some(x => x.link === it.link)) continue;
-            const pubDate = it.pubDate ? new Date(it.pubDate).toISOString().split('T')[0] : '';
-            const tags = Array.isArray(it.categories) && it.categories.length ? it.categories.slice(0,2).map(t => `#${t.replace(/\s+/g,'')}`).join(' ') : '#tech';
-            items.push({ title: it.title, link: it.link, pubDate, tags });
-          }
-        }
-      }
-
-      // Return whatever valid items we found (may be fewer than TARGET_COUNT)
-      return items;
-    } catch (err) {
-      console.error('fetchFeedsAndSelectItems error', err);
-      return [];
-    }
-  }
-
-  // --- MAIN: use cache safely ---
-  try {
-    listEl.innerHTML = '<li style="color:var(--text-muted)">Loading latest tech headlines…</li>';
-
-    const cachedRaw = localStorage.getItem(CACHE_KEY);
-    let cached = null;
-    try { cached = cachedRaw ? JSON.parse(cachedRaw) : null; } catch (e) { cached = null; }
-
-    if (cached && cached.ts && Array.isArray(cached.items) && (Date.now() - cached.ts) < CACHE_TTL_MS && cached.items.length > 0) {
-      // valid cache
-      renderItems(cached.items);
-    } else {
-      // fetch fresh
-      const items = await fetchFeedsAndSelectItems();
-      if (Array.isArray(items) && items.length > 0) {
-        // store only valid non-empty items
-        try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), items }));
-        } catch (e) {
-          console.warn('Could not write cache', e);
-        }
-        renderItems(items);
-      } else {
-        // nothing valid returned -> show fallback
-        console.warn('No valid feed items found; showing fallback.');
-        listEl.innerHTML = fallbackHTML;
-      }
-    }
-  } catch (err) {
-    console.error('Main feed/cache error', err);
-    listEl.innerHTML = fallbackHTML;
-  }
-})();
-</script>
-      </section>
-    </div>
-
-  </body>
-</html>
+  </channel>
+</rss>
