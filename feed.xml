@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>LEXOLEN Blog Feed</title>
-    <link>https://lexolen.github.io/LEXOLEN/</link>
-    <description>Latest research and blog posts from LEXOLEN</description>
-    <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 17:00:00 GMT</lastBuildDate>
+<!-- LEXOLEN Research Blog RSS Feed
+=================================
 
+This RSS feed aggregates the latest research publications, technical blog posts,
+and security analysis from the LEXOLEN team. It covers a wide range of offensive
+security topics including red teaming, vulnerability research, exploit development,
+threat intelligence, and defensive techniques.
+
+Feed Structure:
+- Title: Concise, descriptive post titles
+- Link: Direct URLs to full articles
+- GUID: Unique identifiers for each post
+- PubDate: Publication timestamps
+- Categories: Multiple tags for classification
+- Description: Detailed summaries of content
+
+Content Categories:
+- redteam: Adversary emulation and offensive techniques
+- blueteam: Defensive security and threat hunting
+- exploit: Vulnerability research and exploit development
+- malware: Malware analysis and reverse engineering
+- cloud: Cloud security and container attacks
+- kernel: Operating system kernel security
+- network: Network security and protocols
+- crypto: Cryptography and encryption analysis
+- iot: Internet of Things security
+- mobile: Mobile application security
+- web: Web application security
+- forensics: Digital forensics and incident response
+
+Update Frequency: Weekly to bi-weekly
+Archive: Posts remain available indefinitely
+
+For more information about LEXOLEN research:
+- Website: https://lexolen.github.io/LEXOLEN/
+- GitHub: https://github.com/LEXOLEN/
+- Twitter: https://x.com/LEXOLEN111
+
+-->
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>LEXOLEN Research Blog Feed</title>
+    <link>https://lexolen.github.io/LEXOLEN/</link>
+    <description>Comprehensive security research and technical analysis from LEXOLEN - offensive security, threat intelligence, and red team tooling</description>
+    <language>en-us</language>
+    <managingEditor>research@lexolen.team</managingEditor>
+    <webMaster>admin@lexolen.team</webMaster>
+    <lastBuildDate>Thu, 23 Apr 2026 17:00:00 GMT</lastBuildDate>
+    <generator>LEXOLEN Custom RSS Generator v2.0</generator>
+    <docs>https://www.rssboard.org/rss-specification</docs>
+    <ttl>1440</ttl>
+
+    <!-- Latest Posts -->
     <item>
       <title>Bypassing EDR with direct syscalls – a practical guide</title>
       <link>https://lexolen.github.io/LEXOLEN/posts/bypassing-edr</link>
@@ -14,7 +59,22 @@
       <pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate>
       <category>edr</category>
       <category>redteam</category>
-      <description>A practical walkthrough on bypassing endpoint detection and response solutions using direct syscalls.</description>
+      <category>windows</category>
+      <description>A practical walkthrough on bypassing endpoint detection and response solutions using direct syscalls. Covers Nt* function calls, heaven's gate technique, and anti-analysis measures.</description>
+      <content:encoded><![CDATA[
+        <h2>Introduction</h2>
+        <p>Endpoint Detection and Response (EDR) solutions have become increasingly sophisticated in detecting malicious activity. This post explores advanced evasion techniques using direct system calls to bypass user-mode hooks.</p>
+
+        <h3>Techniques Covered:</h3>
+        <ul>
+          <li>Direct syscall invocation</li>
+          <li>Heaven's Gate for WoW64</li>
+          <li>Custom syscall stubs</li>
+          <li>EDR hook evasion</li>
+        </ul>
+
+        <p><em>Tools referenced: Custom syscall library, EDR testing framework</em></p>
+      ]]></content:encoded>
     </item>
 
     <item>
@@ -24,7 +84,22 @@
       <pubDate>Tue, 10 Mar 2026 00:00:00 GMT</pubDate>
       <category>threathunt</category>
       <category>blueteam</category>
-      <description>Techniques for detecting Cobalt Strike activity hidden within encrypted network traffic.</description>
+      <category>network</category>
+      <description>Techniques for detecting Cobalt Strike activity hidden within encrypted network traffic. Includes beacon analysis, C2 pattern recognition, and decryption methods.</description>
+      <content:encoded><![CDATA[
+        <h2>Beacon Analysis</h2>
+        <p>Cobalt Strike beacons exhibit unique patterns even when encrypted. This analysis covers:</p>
+
+        <h3>Detection Methods:</h3>
+        <ul>
+          <li>TLS fingerprinting</li>
+          <li>Jitter analysis</li>
+          <li>HTTP header patterns</li>
+          <li>Certificate validation</li>
+        </ul>
+
+        <p><em>Integration with: Custom IDS rules, threat hunting playbooks</em></p>
+      ]]></content:encoded>
     </item>
 
     <item>
@@ -34,7 +109,498 @@
       <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
       <category>exploit</category>
       <category>linux</category>
-      <description>Exploring heap spraying techniques in Linux kernel exploit development.</description>
+      <category>kernel</category>
+      <description>Exploring heap spraying techniques in Linux kernel exploit development. Covers SLUB allocator, kmalloc spraying, and reliable exploitation methods.</description>
+      <content:encoded><![CDATA[
+        <h2>SLUB Allocator Deep Dive</h2>
+        <p>The SLUB allocator presents unique challenges and opportunities for heap spraying:</p>
+
+        <h3>Techniques:</h3>
+        <ul>
+          <li>kmalloc cache manipulation</li>
+          <li>Object spraying strategies</li>
+          <li>Cache poisoning</li>
+          <li>Reliable overwrite methods</li>
+        </ul>
+
+        <p><em>PoC code available in our kernel-exploits repository</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <!-- Additional Research Posts -->
+    <item>
+      <title>Container escape techniques in Kubernetes environments</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/k8s-container-escape</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/k8s-container-escape</guid>
+      <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
+      <category>cloud</category>
+      <category>container</category>
+      <category>exploit</category>
+      <description>Advanced container escape techniques targeting Kubernetes clusters. Covers privileged containers, hostPath mounts, and API server attacks.</description>
+      <content:encoded><![CDATA[
+        <h2>Kubernetes Attack Surface</h2>
+        <p>Kubernetes presents multiple attack vectors for container escapes:</p>
+
+        <h3>Escape Vectors:</h3>
+        <ul>
+          <li>Privileged pod exploitation</li>
+          <li>hostPath volume attacks</li>
+          <li>API server misconfigurations</li>
+          <li>Network policy bypasses</li>
+        </ul>
+
+        <p><em>Testing methodology for container security assessments</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Reverse engineering Android malware with Ghidra</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/android-malware-ghidra</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/android-malware-ghidra</guid>
+      <pubDate>Wed, 15 Feb 2026 00:00:00 GMT</pubDate>
+      <category>malware</category>
+      <category>mobile</category>
+      <category>reverse</category>
+      <description>Comprehensive guide to reverse engineering Android malware using Ghidra. Covers APK analysis, DEX disassembly, and obfuscation techniques.</description>
+      <content:encoded><![CDATA[
+        <h2>Android Malware Analysis Workflow</h2>
+        <p>Systematic approach to Android malware reverse engineering:</p>
+
+        <h3>Analysis Steps:</h3>
+        <ul>
+          <li>APK structure examination</li>
+          <li>DEX file disassembly</li>
+          <li>String decryption</li>
+          <li>Dynamic analysis setup</li>
+        </ul>
+
+        <p><em>Ghidra scripts and analysis tools included</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Windows privilege escalation via UAC bypass</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/uac-bypass-techniques</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/uac-bypass-techniques</guid>
+      <pubDate>Mon, 08 Feb 2026 00:00:00 GMT</pubDate>
+      <category>redteam</category>
+      <category>windows</category>
+      <category>privesc</category>
+      <description>Modern User Account Control bypass techniques for Windows privilege escalation. Covers COM hijacking, DLL injection, and elevation methods.</description>
+      <content:encoded><![CDATA[
+        <h2>UAC Architecture Overview</h2>
+        <p>Understanding UAC internals for effective bypass development:</p>
+
+        <h3>Bypass Techniques:</h3>
+        <ul>
+          <li>COM object hijacking</li>
+          <li>DLL search order exploitation</li>
+          <li>AppInfo service manipulation</li>
+          <li>Token impersonation</li>
+        </ul>
+
+        <p><em>PoC implementations for each technique</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>CloudTrail log analysis for AWS threat hunting</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/aws-cloudtrail-analysis</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/aws-cloudtrail-analysis</guid>
+      <pubDate>Sat, 01 Feb 2026 00:00:00 GMT</pubDate>
+      <category>cloud</category>
+      <category>threathunt</category>
+      <category>aws</category>
+      <description>Advanced CloudTrail log analysis techniques for detecting AWS threats. Includes anomaly detection, lateral movement identification, and automated alerting.</description>
+      <content:encoded><![CDATA[
+        <h2>CloudTrail Threat Hunting</h2>
+        <p>Leveraging AWS CloudTrail for comprehensive threat detection:</p>
+
+        <h3>Analysis Techniques:</h3>
+        <ul>
+          <li>API call pattern analysis</li>
+          <li>Geographic anomaly detection</li>
+          <li>Resource enumeration patterns</li>
+          <li>Automated alert generation</li>
+        </ul>
+
+        <p><em>Custom Python scripts for CloudTrail analysis</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>IoT device exploitation – from firmware to root</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/iot-firmware-exploitation</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/iot-firmware-exploitation</guid>
+      <pubDate>Thu, 25 Jan 2026 00:00:00 GMT</pubDate>
+      <category>iot</category>
+      <category>firmware</category>
+      <category>exploit</category>
+      <description>Complete guide to IoT device exploitation from firmware extraction to root shell. Covers embedded device analysis and common vulnerabilities.</description>
+      <content:encoded><![CDATA[
+        <h2>IoT Attack Methodology</h2>
+        <p>Systematic approach to IoT device security assessment:</p>
+
+        <h3>Exploitation Phases:</h3>
+        <ul>
+          <li>Firmware extraction techniques</li>
+          <li>Embedded system analysis</li>
+          <li>Vulnerability identification</li>
+          <li>Root shell acquisition</li>
+        </ul>
+
+        <p><em>Tools: Binwalk, Ghidra, QEMU emulation</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>WebAssembly malware analysis and detection</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/wasm-malware-analysis</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/wasm-malware-analysis</guid>
+      <pubDate>Tue, 18 Jan 2026 00:00:00 GMT</pubDate>
+      <category>malware</category>
+      <category>web</category>
+      <category>wasm</category>
+      <description>Analyzing WebAssembly-based malware and developing detection signatures. Covers WASM bytecode analysis and runtime behavior monitoring.</description>
+      <content:encoded><![CDATA[
+        <h2>WebAssembly Threat Landscape</h2>
+        <p>WASM provides new attack vectors for browser-based malware:</p>
+
+        <h3>Analysis Techniques:</h3>
+        <ul>
+          <li>WASM bytecode disassembly</li>
+          <li>Runtime behavior analysis</li>
+          <li>Signature development</li>
+          <li>Browser sandbox escapes</li>
+        </ul>
+
+        <p><em>Custom WASM analysis tools and signatures</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Active Directory attack path mapping with BloodHound</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/bloodhound-attack-paths</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/bloodhound-attack-paths</guid>
+      <pubDate>Sun, 11 Jan 2026 00:00:00 GMT</pubDate>
+      <category>redteam</category>
+      <category>activedirectory</category>
+      <category>recon</category>
+      <description>Advanced BloodHound usage for mapping Active Directory attack paths. Covers custom queries, data collection, and exploitation strategies.</description>
+      <content:encoded><![CDATA[
+        <h2>BloodHound Advanced Techniques</h2>
+        <p>Maximizing BloodHound for red team operations:</p>
+
+        <h3>Analysis Features:</h3>
+        <ul>
+          <li>Custom Cypher queries</li>
+          <li>Attack path visualization</li>
+          <li>Data collection optimization</li>
+          <li>Automated exploitation</li>
+        </ul>
+
+        <p><em>Integration with our BloodHound-CE fork</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Cryptographic attacks on TLS 1.3 implementations</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/tls13-crypto-attacks</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/tls13-crypto-attacks</guid>
+      <pubDate>Fri, 04 Jan 2026 00:00:00 GMT</pubDate>
+      <category>crypto</category>
+      <category>network</category>
+      <category>tls</category>
+      <description>Cryptographic attacks targeting TLS 1.3 implementations. Covers key exchange weaknesses, implementation flaws, and downgrade attacks.</description>
+      <content:encoded><![CDATA[
+        <h2>TLS 1.3 Security Analysis</h2>
+        <p>Examining TLS 1.3 for cryptographic weaknesses:</p>
+
+        <h3>Attack Vectors:</h3>
+        <ul>
+          <li>Key exchange manipulation</li>
+          <li>Implementation flaws</li>
+          <li>Downgrade attack prevention</li>
+          <li>Quantum resistance assessment</li>
+        </ul>
+
+        <p><em>Custom TLS testing tools and research findings</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Memory forensics in Windows crash dumps</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/windows-memory-forensics</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/windows-memory-forensics</guid>
+      <pubDate>Wed, 28 Dec 2025 00:00:00 GMT</pubDate>
+      <category>forensics</category>
+      <category>windows</category>
+      <category>memory</category>
+      <description>Advanced memory forensics techniques using Windows crash dumps. Covers Volatility framework usage and custom plugin development.</description>
+      <content:encoded><![CDATA[
+        <h2>Windows Memory Analysis</h2>
+        <p>Leveraging crash dumps for comprehensive memory forensics:</p>
+
+        <h3>Analysis Techniques:</h3>
+        <ul>
+          <li>Volatility plugin development</li>
+          <li>Process memory reconstruction</li>
+          <li>Malware artifact extraction</li>
+          <li>Timeline reconstruction</li>
+        </ul>
+
+        <p><em>Custom Volatility plugins included</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Bluetooth Low Energy security research</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/ble-security-research</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/ble-security-research</guid>
+      <pubDate>Mon, 21 Dec 2025 00:00:00 GMT</pubDate>
+      <category>iot</category>
+      <category>bluetooth</category>
+      <category>wireless</category>
+      <description>Security research on Bluetooth Low Energy protocols. Covers pairing attacks, man-in-the-middle techniques, and firmware analysis.</description>
+      <content:encoded><![CDATA[
+        <h2>Bluetooth LE Threat Model</h2>
+        <p>Comprehensive analysis of BLE security mechanisms:</p>
+
+        <h3>Research Areas:</h3>
+        <ul>
+          <li>Pairing protocol weaknesses</li>
+          <li>MITM attack vectors</li>
+          <li>Firmware reverse engineering</li>
+          <li>Privacy implications</li>
+        </ul>
+
+        <p><em>Custom BLE testing tools and research papers</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Automated exploit generation with symbolic execution</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/symbolic-execution-exploits</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/symbolic-execution-exploits</guid>
+      <pubDate>Sat, 14 Dec 2025 00:00:00 GMT</pubDate>
+      <category>exploit</category>
+      <category>automation</category>
+      <category>symbolic</category>
+      <description>Using symbolic execution engines for automated exploit generation. Covers angr, Manticore, and custom symbolic execution frameworks.</description>
+      <content:encoded><![CDATA[
+        <h2>Symbolic Execution for Exploits</h2>
+        <p>Automated vulnerability discovery and exploit generation:</p>
+
+        <h3>Technologies:</h3>
+        <ul>
+          <li>angr framework integration</li>
+          <li>Constraint solving</li>
+          <li>Path exploration</li>
+          <li>Exploit synthesis</li>
+        </ul>
+
+        <p><em>PoC exploit generation scripts</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Supply chain attack techniques and detection</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/supply-chain-attacks</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/supply-chain-attacks</guid>
+      <pubDate>Thu, 07 Dec 2025 00:00:00 GMT</pubDate>
+      <category>supplychain</category>
+      <category>threathunt</category>
+      <category>blueteam</category>
+      <description>Analysis of supply chain attack methodologies and detection strategies. Covers dependency confusion, build system compromises, and mitigation techniques.</description>
+      <content:encoded><![CDATA[
+        <h2>Supply Chain Threat Landscape</h2>
+        <p>Understanding and defending against supply chain attacks:</p>
+
+        <h3>Attack Techniques:</h3>
+        <ul>
+          <li>Dependency confusion</li>
+          <li>Build pipeline compromise</li>
+          <li>Third-party library injection</li>
+          <li>Watering hole attacks</li>
+        </ul>
+
+        <p><em>Detection tools and security best practices</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>macOS kernel extension exploitation</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/macos-kernel-extensions</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/macos-kernel-extensions</guid>
+      <pubDate>Tue, 30 Nov 2025 00:00:00 GMT</pubDate>
+      <category>exploit</category>
+      <category>macos</category>
+      <category>kernel</category>
+      <description>Exploiting macOS kernel extensions for privilege escalation. Covers IOKit drivers, Mach ports, and XNU kernel vulnerabilities.</description>
+      <content:encoded><![CDATA[
+        <h2>macOS Kernel Exploitation</h2>
+        <p>Targeting macOS kernel extensions for elevated privileges:</p>
+
+        <h3>Exploit Vectors:</h3>
+        <ul>
+          <li>IOKit driver vulnerabilities</li>
+          <li>Mach port manipulation</li>
+          <li>XNU kernel bugs</li>
+          <li>SIP bypass techniques</li>
+        </ul>
+
+        <p><em>macOS-specific exploit development tools</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>AI/ML model poisoning attacks and defenses</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/ai-model-poisoning</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/ai-model-poisoning</guid>
+      <pubDate>Sun, 23 Nov 2025 00:00:00 GMT</pubDate>
+      <category>ai</category>
+      <category>ml</category>
+      <category>security</category>
+      <description>Research on poisoning attacks against AI/ML models and defense mechanisms. Covers data poisoning, model inversion, and adversarial training.</description>
+      <content:encoded><![CDATA[
+        <h2>AI/ML Security Research</h2>
+        <p>Attacking and defending machine learning systems:</p>
+
+        <h3>Research Areas:</h3>
+        <ul>
+          <li>Data poisoning techniques</li>
+          <li>Model inversion attacks</li>
+          <li>Adversarial input generation</li>
+          <li>Defense mechanisms</li>
+        </ul>
+
+        <p><em>Custom ML security testing tools</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Network protocol fuzzing with custom mutators</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/protocol-fuzzing</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/protocol-fuzzing</guid>
+      <pubDate>Fri, 16 Nov 2025 00:00:00 GMT</pubDate>
+      <category>fuzzing</category>
+      <category>network</category>
+      <category>protocol</category>
+      <description>Advanced network protocol fuzzing techniques with custom mutation engines. Covers stateful fuzzing, grammar-based mutations, and coverage-guided approaches.</description>
+      <content:encoded><![CDATA[
+        <h2>Protocol Fuzzing Methodology</h2>
+        <p>Comprehensive approach to network protocol security testing:</p>
+
+        <h3>Fuzzing Techniques:</h3>
+        <ul>
+          <li>Stateful protocol modeling</li>
+          <li>Grammar-based mutations</li>
+          <li>Coverage-guided fuzzing</li>
+          <li>Custom mutator development</li>
+        </ul>
+
+        <p><em>Integration with our AutoRecon network scanner</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Hardware-assisted virtualization rootkits</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/hardware-virtualization-rootkits</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/hardware-virtualization-rootkits</guid>
+      <pubDate>Wed, 09 Nov 2025 00:00:00 GMT</pubDate>
+      <category>rootkit</category>
+      <category>hardware</category>
+      <category>virtualization</category>
+      <description>Developing rootkits using hardware-assisted virtualization. Covers Intel VT-x, AMD-V, and hypervisor-based stealth techniques.</description>
+      <content:encoded><![CDATA[
+        <h2>Hardware Virtualization Rootkits</h2>
+        <p>Leveraging CPU virtualization extensions for advanced rootkits:</p>
+
+        <h3>Implementation Techniques:</h3>
+        <ul>
+          <li>VT-x/AMD-V exploitation</li>
+          <li>Hypervisor development</li>
+          <li>Stealth mechanisms</li>
+          <li>Detection evasion</li>
+        </ul>
+
+        <p><em>PoC hypervisor rootkit implementation</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Zero-day vulnerability research in popular libraries</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/zeroday-library-research</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/zeroday-library-research</guid>
+      <pubDate>Mon, 02 Nov 2025 00:00:00 GMT</pubDate>
+      <category>zeroday</category>
+      <category>vulnerability</category>
+      <category>research</category>
+      <description>Systematic zero-day vulnerability research methodology applied to popular open-source libraries. Covers fuzzing, code review, and exploit development.</description>
+      <content:encoded><![CDATA[
+        <h2>Zero-Day Research Methodology</h2>
+        <p>Structured approach to discovering unknown vulnerabilities:</p>
+
+        <h3>Research Process:</h3>
+        <ul>
+          <li>Target library selection</li>
+          <li>Source code analysis</li>
+          <li>Fuzzing campaign setup</li>
+          <li>Vulnerability validation</li>
+        </ul>
+
+        <p><em>Responsible disclosure guidelines and case studies</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Blockchain smart contract security analysis</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/smart-contract-security</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/smart-contract-security</guid>
+      <pubDate>Sat, 25 Oct 2025 00:00:00 GMT</pubDate>
+      <category>blockchain</category>
+      <category>smartcontract</category>
+      <category>security</category>
+      <description>Security analysis of blockchain smart contracts. Covers Solidity vulnerabilities, DeFi protocol attacks, and automated contract auditing tools.</description>
+      <content:encoded><![CDATA[
+        <h2>Smart Contract Vulnerabilities</h2>
+        <p>Common security issues in blockchain smart contracts:</p>
+
+        <h3>Vulnerability Classes:</h3>
+        <ul>
+          <li>Reentrancy attacks</li>
+          <li>Integer overflow/underflow</li>
+          <li>Access control flaws</li>
+          <li>Oracle manipulation</li>
+        </ul>
+
+        <p><em>Custom smart contract analysis tools</em></p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Advanced persistent threat simulation framework</title>
+      <link>https://lexolen.github.io/LEXOLEN/posts/apt-simulation-framework</link>
+      <guid isPermaLink="true">https://lexolen.github.io/LEXOLEN/posts/apt-simulation-framework</guid>
+      <pubDate>Thu, 18 Oct 2025 00:00:00 GMT</pubDate>
+      <category>apt</category>
+      <category>simulation</category>
+      <category>redteam</category>
+      <description>Framework for simulating advanced persistent threat campaigns. Covers multi-stage attacks, C2 infrastructure, and long-term persistence techniques.</description>
+      <content:encoded><![CDATA[
+        <h2>APT Simulation Framework</h2>
+        <p>Comprehensive framework for red team APT simulations:</p>
+
+        <h3>Framework Components:</h3>
+        <ul>
+          <li>Multi-stage attack chains</li>
+          <li>C2 infrastructure setup</li>
+          <li>Persistence mechanisms</li>
+          <li>Anti-forensic techniques</li>
+        </ul>
+
+        <p><em>Modular APT simulation toolkit</em></p>
+      ]]></content:encoded>
     </item>
 
   </channel>
